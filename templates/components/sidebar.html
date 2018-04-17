@@ -1,0 +1,11 @@
+<div class="sidebar">
+    {% for category in category_list %}
+        <h3>{{ category.name }}</h3>
+        {% for subcategory in subcategory_list %}
+            <h5>{{ subcategory.name }}</h5>
+            {% for page in page_list %}
+                <div class="sidebar-list-item">- {{ page.title }}</div>
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+</div>

@@ -1,0 +1,11 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/mathvisualized.css' %}" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto"> 
+
+{% include "components/sidebar.html" with category_list=category_list subcategory_list=subcategory_list page_list=page_list %}
+
+<div class="content">
+    <h1>Math Visualized</h1>
+    <p>This is a web app I wrote as an attempt to teach myself math. 
+        Work in progress.</p>
+</div>
