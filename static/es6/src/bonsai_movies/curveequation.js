@@ -1,0 +1,1 @@
+stage.setBackgroundColor('#00f');
