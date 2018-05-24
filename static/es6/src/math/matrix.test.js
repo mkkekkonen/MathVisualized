@@ -1,4 +1,5 @@
 import Matrix4x4 from './matrix';
+import Vector3 from './vector';
 
 test('correct coordinates', () => {
     const A = new Matrix4x4([
@@ -30,26 +31,28 @@ test('multiplies correctly', () => {
         [0, 0, 0, 0],
     ]);
     expect(A.multiply(B)).toEqual(expectedResult);
+});
 
-    const C = new Matrix4x4([
+test('multiplies correctly 2', () => {
+    const A = new Matrix4x4([
         [5, 2, 6, 1],
         [0, 6, 2, 0],
         [3, 8, 1, 4],
         [1, 8, 5, 6],
     ]);
-    const D = new Matrix4x4([
+    const B = new Matrix4x4([
         [7, 5, 8, 0],
         [1, 8, 2, 6],
         [9, 4, 3, 8],
         [5, 3, 7, 9],
     ]);
-    const expectedResult2 = new Matrix4x4([
+    const expectedResult = new Matrix4x4([
         [96, 68, 69, 69],
         [24, 56, 18, 52],
         [58, 95, 71, 92],
         [90, 107, 81, 142],
     ]);
-    expect(C.multiply(D)).toEqual(expectedResult2);
+    expect(A.multiply(B)).toEqual(expectedResult);
 });
 
 test('multiplies correctly with vectors', () => {
@@ -59,17 +62,12 @@ test('multiplies correctly with vectors', () => {
         [4, 4, 3, 3],
         [5, 5, 3, 7],
     ]);
-    const v = {
-        x: 2,
-        y: 5,
-        z: 5,
-        w: 8,
-    };
+    const v = new Vector3({ x: 2, y: 5, z: 5 });
     const u = A.multiplyVector(v);
     expect(u).toEqual({
-        x: 119,
-        y: 74,
-        z: 67,
-        w: 106,
+        x: 56,
+        y: 25,
+        z: 46,
+        w: 57,
     });
 });
