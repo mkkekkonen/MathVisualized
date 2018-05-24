@@ -15,28 +15,17 @@ class Matrix4x4 {
     // See https://en.wikipedia.org/wiki/Matrix_multiplication
     multiply(otherMatrix) {
         const newMatrixArray = [];
-        const debug = false;
 
-        for (let i = 0; i < 4; i += 1) {
+        for (let i = 1; i <= 4; i += 1) {
             newMatrixArray.push([]);
-            for (let j = 0; j < 4; j += 1) {
+            for (let j = 1; j <= 4; j += 1) {
                 let cij = 0;
-                let debugStr = `c_${i}${j} = `;
-                let debug2Str = '';
-                for (let m = 0; m < 4; m += 1) {
-                    cij += this.matrix[m][i] * otherMatrix.matrix[j][m];
-                    debugStr += `a_${i}${m} * b_${m}${j} `;
-                    debug2Str += `${this.matrix[m][i]} * ${otherMatrix.matrix[j][m]} `;
-                    if (m < 2) {
-                        debugStr += '+ ';
-                        debug2Str += '+ ';
-                    }
+                for (let m = 1; m <= 4; m += 1) {
+                    cij += this.ij(i, m) * otherMatrix.ij(m, j);
                 }
-                if (debug) console.log(`${debugStr}\n${cij} = ${debug2Str}`);
-                newMatrixArray[i].push(cij);
+                newMatrixArray[i - 1].push(cij);
             }
         }
-        if (debug) console.log(JSON.stringify(newMatrixArray));
 
         return new Matrix4x4(newMatrixArray);
     }
