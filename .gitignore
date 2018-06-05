@@ -1,4 +1,4 @@
 __pycache__/
 static/css/mathvisualized.css
 static/es6/node_modules/
-static/js/
+static/js/node_modules/

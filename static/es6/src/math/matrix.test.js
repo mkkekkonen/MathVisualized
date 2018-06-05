@@ -8,7 +8,7 @@ test('correct coordinates', () => {
         [9, 10, 11, 12],
         [13, 14, 15, 16],
     ]);
-    expect(A.ij(1, 2)).toEqual(2);
+    expect(A.ij(0, 1)).toEqual(2);
 });
 
 test('multiplies correctly', () => {
@@ -29,7 +29,7 @@ test('multiplies correctly', () => {
         [1, -4, -1, 0],
         [-7, 5, -4, 0],
         [0, 0, 0, 0],
-    ]);
+    ])
     expect(A.multiply(B)).toEqual(expectedResult);
 });
 
@@ -65,9 +65,31 @@ test('multiplies correctly with vectors', () => {
     const v = new Vector3({ x: 2, y: 5, z: 5 });
     const u = A.multiplyVector(v);
     expect(u).toEqual({
-        x: 56,
-        y: 25,
-        z: 46,
-        w: 57,
+        x: 72,
+        y: 43,
+        z: 18,
+        w: 75,
+    });
+});
+
+test('scales vector correctly', () => {
+    const v = new Vector3({ x: 1, y: 2, z: 3 });
+    const u = Matrix4x4.scale({ x: 2, y: 10, z: 100 }).multiplyVector(v);
+    expect(u).toEqual({
+        x: 2,
+        y: 20,
+        z: 300,
+        w: 1,
+    });
+});
+
+test('translates vector correctly', () => {
+    const v = new Vector3({ x: 1, y: 2, z: 3 });
+    const u = Matrix4x4.translate({ x: -3, y: 2, z: 1 }).multiplyVector(v);
+    expect(u).toEqual({
+        x: -2,
+        y: 4,
+        z: 4,
+        w: 1,
     });
 });
