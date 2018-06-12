@@ -1,0 +1,1 @@
+math_visualized_password = 'V4r1s_K4nt4'

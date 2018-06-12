@@ -13,7 +13,7 @@ def page(request, name):
     lists = get_lists()
     page = Page.objects.get(url_title=name)
     page_content_url = 'page_content/' + page.url_title + '.html'
-    js_url = 'js/entry_points/' + page.url_title + '.js'
+    js_url = 'mathvisualized/js/entry_points/' + page.url_title + '.js'
     context= {
         'page': page,
         'page_content_url': page_content_url,

@@ -38,7 +38,7 @@ body {
     box-sizing: border-box;
     float: left;
     padding: 50px;
-    width: 40vw;
+    width: 38vw; 
 }
 
 .content {
@@ -47,6 +47,15 @@ body {
         font-size: 50px;
         font-weight: 100;
         margin-bottom: 20px;
+    }
+
+    p {
+        margin-bottom: 30px;
+    }
+
+    input {
+        border-radius: 5px;
+        padding: 10px;
     }
 }
 
