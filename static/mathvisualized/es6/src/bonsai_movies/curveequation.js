@@ -44,7 +44,7 @@ yAxis.addTo(stage);
 
 let curve = null;
 
-const plotCurve = () => {
+const plotCurve = ({ a, b, c }) => {
     if (curve) {
         curve.remove();
         curve = null;
@@ -53,7 +53,7 @@ const plotCurve = () => {
     curve = new Path();
 
     for (let x = -5; x <= 5; x += 0.1) {
-        const y = ((x * x) + (4 * x)) - 2;
+        const y = ((a * x * x) + (b * x)) + c;
 
         let coords = new Vector3({ x, y, z: 0 });
         coords = viewportMatrix.multiplyVector(coords);
@@ -71,4 +71,8 @@ const plotCurve = () => {
     curve.addTo(stage);
 };
 
-plotCurve();
+stage.on('message:updateEquation', (coefficients) => {
+    plotCurve(coefficients)
+});
+
+plotCurve({ a: 1, b: 4, c: -2 });

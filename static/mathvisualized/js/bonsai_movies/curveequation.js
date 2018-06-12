@@ -52,7 +52,11 @@ yAxis.addTo(stage);
 
 var curve = null;
 
-var plotCurve = function plotCurve() {
+var plotCurve = function plotCurve(_ref) {
+    var a = _ref.a,
+        b = _ref.b,
+        c = _ref.c;
+
     if (curve) {
         curve.remove();
         curve = null;
@@ -61,7 +65,7 @@ var plotCurve = function plotCurve() {
     curve = new Path();
 
     for (var x = -5; x <= 5; x += 0.1) {
-        var y = x * x + 4 * x - 2;
+        var y = a * x * x + b * x + c;
 
         var coords = new _vector2.default({ x: x, y: y, z: 0 });
         coords = viewportMatrix.multiplyVector(coords);
@@ -78,4 +82,8 @@ var plotCurve = function plotCurve() {
     curve.addTo(stage);
 };
 
-plotCurve();
+stage.on('message:updateEquation', function (coefficients) {
+    plotCurve(coefficients);
+});
+
+plotCurve({ a: 1, b: 4, c: -2 });

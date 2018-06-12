@@ -41,6 +41,9 @@ body {
   border-radius: 5px;
   padding: 10px; }
 
+.content .input-container {
+  margin-bottom: 10px; }
+
 .index-image {
   box-sizing: border-box;
   padding: 20px;

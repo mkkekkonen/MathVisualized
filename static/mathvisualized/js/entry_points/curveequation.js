@@ -8,6 +8,8 @@ var movie = bonsai.run(document.getElementById('canvas'), {
 
 document.getElementById('updateButton').addEventListener('click', function () {
     movie.sendMessage('updateEquation', {
-        equation: document.getElementById('equation').value
+        a: parseFloat(document.getElementById('a').value),
+        b: parseFloat(document.getElementById('b').value),
+        c: parseFloat(document.getElementById('c').value)
     });
 });
