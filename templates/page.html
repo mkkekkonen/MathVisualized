@@ -1,11 +1,12 @@
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/mathvisualized.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mathvisualized/css/mathvisualized.css' %}" />
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto"> 
 
 {% include "components/sidebar.html" with lists=sidebar_lists %}
 
 <div class="content container">
-    Asdasdasd
+    <h1>{{ page.title }}</h1>
+    {% include page_content_url %}
 </div>
 
 <div class="canvas-container container">
@@ -13,7 +14,7 @@
 </div>
 
 {% if page.js_lib == choices.BONSAI %}
-    <script src="{% static 'jslib/bonsai-0.4.1.min.js' %}"></script>
+    <script src="{% static 'mathvisualized/jslib/bonsai-0.4.1.min.js' %}"></script>
 {% endif %}
 
 <script src="{% static js_url %}"></script>

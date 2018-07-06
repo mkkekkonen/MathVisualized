@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "transpile": "babel src -d ../js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "watch": "npm-watch"
   },
   "watch": {
@@ -17,6 +17,11 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jest": "^21.15.1",
+    "jest": "^22.4.3",
     "npm-watch": "^0.3.0"
   }
 }

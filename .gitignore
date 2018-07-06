@@ -1,4 +1,6 @@
 __pycache__/
 static/css/mathvisualized.css
-static/es6/node_modules/
-static/js/
+static/mathvisualized/es6/node_modules/
+static/mathvisualized/js/node_modules/
+dbdumps/
+*.zip

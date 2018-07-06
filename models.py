@@ -1,6 +1,8 @@
 from django.db import models
 import mathvisualized.choices as choices
 
+APP_LABEL = 'mathvisualized'
+
 class Page(models.Model):
     subcategory = models.ForeignKey(
         'Subcategory', 
@@ -21,12 +23,17 @@ class Page(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        app_label = APP_LABEL
 
 class Category(models.Model):
     name = models.CharField(max_length=256, default='')
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        app_label = APP_LABEL
 
 class Subcategory(models.Model):
     category = models.ForeignKey(
@@ -38,3 +45,6 @@ class Subcategory(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        app_label = APP_LABEL
