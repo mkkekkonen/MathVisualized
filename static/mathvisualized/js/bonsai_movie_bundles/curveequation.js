@@ -88,7 +88,7 @@ stage.on('message:updateEquation', function (coefficients) {
 });
 
 plotCurve({ a: 1, b: 4, c: -2 });
-},{"../constants/curveequation":2,"../math/vector":4,"../math/viewport":5}],2:[function(require,module,exports){
+},{"../constants/curveequation":2,"../math/vector":5,"../math/viewport":6}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -111,6 +111,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _vector = require("./vector");
+
+var _vector2 = _interopRequireDefault(_vector);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -153,9 +159,7 @@ var Matrix4x4 = function () {
             var y = this.ij(0, 1) * vector.x + this.ij(1, 1) * vector.y + this.ij(2, 1) * vector.z + this.ij(3, 1) * vector.w;
             var z = this.ij(0, 2) * vector.x + this.ij(1, 2) * vector.y + this.ij(2, 2) * vector.z + this.ij(3, 2) * vector.w;
             var w = this.ij(0, 3) * vector.x + this.ij(1, 3) * vector.y + this.ij(2, 3) * vector.z + this.ij(3, 3) * vector.w;
-            return {
-                x: x, y: y, z: z, w: w
-            };
+            return new _vector2.default({ x: x, y: y, z: z });
         }
     }, {
         key: "ij",
@@ -187,35 +191,68 @@ var Matrix4x4 = function () {
 }();
 
 exports.default = Matrix4x4;
-},{}],4:[function(require,module,exports){
+},{"./vector":5}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Vector3 = function Vector3(_ref) {
-    var x = _ref.x,
-        y = _ref.y,
-        z = _ref.z;
-
-    _classCallCheck(this, Vector3);
-
-    this.x = x;
-    this.y = y;
-    this.z = z;
-    this.w = 1;
+var round = function round(number) {
+  return Math.round(number * 100) / 100;
 };
 
-exports.default = Vector3;
+exports.round = round;
 },{}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _util = require('./util');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Vector3 = function () {
+    function Vector3(_ref) {
+        var x = _ref.x,
+            y = _ref.y,
+            z = _ref.z,
+            w = _ref.w;
+
+        _classCallCheck(this, Vector3);
+
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.w = w || 1;
+    }
+
+    _createClass(Vector3, [{
+        key: 'distanceFrom',
+        value: function distanceFrom(vector) {
+            return Math.sqrt(Math.pow(vector.x - this.x, 2) + Math.pow(vector.y - this.y, 2));
+        }
+    }, {
+        key: 'toString',
+        value: function toString() {
+            return 'Vector3 ~ (' + (0, _util.round)(this.x) + ', ' + (0, _util.round)(this.y) + ', ' + (0, _util.round)(this.z) + ')';
+        }
+    }]);
+
+    return Vector3;
+}();
+
+exports.default = Vector3;
+},{"./util":4}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.createReverseViewportMatrix = undefined;
 
 var _matrix = require('./matrix');
 
@@ -234,17 +271,29 @@ var createViewportMatrix = function createViewportMatrix(_ref) {
     var translateX = screenWidth / 2;
     var translateY = screenHeight / 2;
 
-    var scalingMatrix = _matrix2.default.scale({ x: scaleX, y: -scaleY, z: 0 });
-    console.log('Scaling matrix');
-    console.dir(scalingMatrix);
+    var scalingMatrix = _matrix2.default.scale({ x: scaleX, y: -scaleY, z: 1 });
     var translationMatrix = _matrix2.default.translate({ x: translateX, y: translateY, z: 0 });
-    console.log('Translation matrix');
-    console.dir(translationMatrix);
     var viewportMatrix = scalingMatrix.multiply(translationMatrix);
-    console.log('Viewport matrix');
-    console.dir(viewportMatrix);
     return viewportMatrix;
 };
 
+var createReverseViewportMatrix = function createReverseViewportMatrix(_ref2) {
+    var worldWidth = _ref2.worldWidth,
+        worldHeight = _ref2.worldHeight,
+        screenWidth = _ref2.screenWidth,
+        screenHeight = _ref2.screenHeight;
+
+    var scaleX = worldWidth / screenWidth;
+    var scaleY = worldHeight / screenHeight;
+    var translateX = screenWidth / 2;
+    var translateY = screenHeight / 2;
+
+    var translationMatrix = _matrix2.default.translate({ x: -translateX, y: -translateY, z: 0 });
+    var scalingMatrix = _matrix2.default.scale({ x: scaleX, y: -scaleY, z: 1 });
+    var worldMatrix = translationMatrix.multiply(scalingMatrix);
+    return worldMatrix;
+};
+
+exports.createReverseViewportMatrix = createReverseViewportMatrix;
 exports.default = createViewportMatrix;
 },{"./matrix":3}]},{},[1]);

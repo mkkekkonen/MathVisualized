@@ -4,3 +4,5 @@ static/mathvisualized/es6/node_modules/
 static/mathvisualized/js/node_modules/
 dbdumps/
 *.zip
+/migrations/*.pyc
+/*.pyc

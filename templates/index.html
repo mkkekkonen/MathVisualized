@@ -1,15 +1,22 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'mathvisualized/css/mathvisualized.css' %}" />
-<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto"> 
+<!DOCTYPE html>
+<head>
+    <title>Math Visualized</title>
+</head>
 
-{% include "components/sidebar.html" with lists=sidebar_lists %}
+<body>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'mathvisualized/css/mathvisualized.css' %}" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto"> 
 
-<div class="content container">
-    <h1>Math Visualized</h1>
-    <p>This is a web app I wrote as an attempt to teach myself math. 
-        Work in progress.</p>
-</div>
+    {% include "components/sidebar.html" with lists=sidebar_lists %}
 
-<div class="canvas-container container">
-    <img class="index-image" src="{% static 'mathvisualized/img/graph.png' %}" />
-</div>
+    <div class="content container">
+        <h1>Math Visualized</h1>
+        <p>This is a web app I wrote as an attempt to teach myself math. 
+            Work in progress.</p>
+    </div>
+
+    <div class="canvas-container container">
+        <img class="index-image" src="{% static 'mathvisualized/img/graph.png' %}" />
+    </div>
+</body>

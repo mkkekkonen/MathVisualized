@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<p>
+    Here you can calculate the distance between two 
+    points. You can set the points by clicking on the 
+    canvas.
+</p>
+
+<p>
+    The formula for calculating the distance between
+    points is
+</p>
+
+<p id="sqrt"></p>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        katex.render('\\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}', document.getElementById("sqrt"));
+    });
+</script>

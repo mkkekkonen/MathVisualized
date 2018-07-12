@@ -12,5 +12,8 @@
     "browserify": "^16.2.2",
     "gulp": "^3.9.1",
     "vinyl-source-stream": "^2.0.0"
+  },
+  "dependencies": {
+    "konva": "^2.1.7"
   }
 }

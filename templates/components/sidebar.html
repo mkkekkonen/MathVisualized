@@ -4,7 +4,9 @@
         {% for subcategory in lists.subcategory_list %}
             <h5>{{ subcategory.name }}</h5>
             {% for page in lists.page_list %}
-                <div class="sidebar-list-item">- {{ page.title }}</div>
+                {% if page.subcategory == subcategory %}
+                    <div class="sidebar-list-item">- <a href="/mathvisualized/pages/{{ page.url_title }}">{{ page.title }}</a></div>
+                {% endif %}
             {% endfor %}
         {% endfor %}
     {% endfor %}

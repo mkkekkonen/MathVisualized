@@ -44,6 +44,9 @@ body {
 .content .input-container {
   margin-bottom: 10px; }
 
+.canvas-container #canvas {
+  background-color: #ccc; }
+
 .index-image {
   box-sizing: border-box;
   padding: 20px;

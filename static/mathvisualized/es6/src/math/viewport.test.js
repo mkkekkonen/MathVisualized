@@ -11,7 +11,7 @@ test('creates correct viewport matrix', () => {
     expect(A).toEqual(new Matrix4x4([
         [64, 0, 0, 0],
         [0, -48, 0, 0],
-        [0, 0, 0, 0],
+        [0, 0, 1, 0],
         [320, 240, 0, 1],
     ]));
 });
