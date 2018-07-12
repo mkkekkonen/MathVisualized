@@ -1,3 +1,5 @@
+import Vector3 from "./vector";
+
 class Matrix4x4 {
     constructor(matrix) {
         if (!matrix) {
@@ -47,9 +49,7 @@ class Matrix4x4 {
             + (this.ij(1, 3) * vector.y)
             + (this.ij(2, 3) * vector.z)
             + (this.ij(3, 3) * vector.w);
-        return {
-            x, y, z, w,
-        };
+        return new Vector3({ x, y, z });
     }
 
     ij(i, j) {

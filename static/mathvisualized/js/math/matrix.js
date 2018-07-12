@@ -6,6 +6,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _vector = require("./vector");
+
+var _vector2 = _interopRequireDefault(_vector);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Matrix4x4 = function () {
@@ -47,9 +53,7 @@ var Matrix4x4 = function () {
             var y = this.ij(0, 1) * vector.x + this.ij(1, 1) * vector.y + this.ij(2, 1) * vector.z + this.ij(3, 1) * vector.w;
             var z = this.ij(0, 2) * vector.x + this.ij(1, 2) * vector.y + this.ij(2, 2) * vector.z + this.ij(3, 2) * vector.w;
             var w = this.ij(0, 3) * vector.x + this.ij(1, 3) * vector.y + this.ij(2, 3) * vector.z + this.ij(3, 3) * vector.w;
-            return {
-                x: x, y: y, z: z, w: w
-            };
+            return new _vector2.default({ x: x, y: y, z: z });
         }
     }, {
         key: "ij",

@@ -11,16 +11,29 @@ const createViewportMatrix = ({
     const translateX = screenWidth / 2;
     const translateY = screenHeight / 2;
 
-    const scalingMatrix = Matrix4x4.scale({ x: scaleX, y: -scaleY, z: 0 });
-    console.log('Scaling matrix');
-    console.dir(scalingMatrix);
+    const scalingMatrix = Matrix4x4.scale({ x: scaleX, y: -scaleY, z: 1 });
     const translationMatrix = Matrix4x4.translate({ x: translateX, y: translateY, z: 0 });
-    console.log('Translation matrix');
-    console.dir(translationMatrix);
     const viewportMatrix = scalingMatrix.multiply(translationMatrix);
-    console.log('Viewport matrix');
-    console.dir(viewportMatrix);
     return viewportMatrix;
 };
+
+const createReverseViewportMatrix = ({
+    worldWidth,
+    worldHeight,
+    screenWidth,
+    screenHeight,
+}) => {
+    const scaleX = worldWidth / screenWidth;
+    const scaleY = worldHeight / screenHeight;
+    const translateX = screenWidth / 2;
+    const translateY = screenHeight / 2;
+
+    const translationMatrix = Matrix4x4.translate({ x: -translateX, y: -translateY, z: 0 });
+    const scalingMatrix = Matrix4x4.scale({ x: scaleX, y: -scaleY, z: 1 });
+    const worldMatrix = translationMatrix.multiply(scalingMatrix);
+    return worldMatrix;
+};
+
+export { createReverseViewportMatrix };
 
 export default createViewportMatrix;

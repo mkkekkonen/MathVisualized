@@ -25,6 +25,7 @@ class Page(models.Model):
 
     class Meta:
         app_label = APP_LABEL
+        db_table = 'mathvisualized_page'
 
 class Category(models.Model):
     name = models.CharField(max_length=256, default='')
@@ -34,6 +35,7 @@ class Category(models.Model):
 
     class Meta:
         app_label = APP_LABEL
+        db_table = 'mathvisualized_category'
 
 class Subcategory(models.Model):
     category = models.ForeignKey(
@@ -48,3 +50,4 @@ class Subcategory(models.Model):
 
     class Meta:
         app_label = APP_LABEL
+        db_table = 'mathvisualized_subcategory'

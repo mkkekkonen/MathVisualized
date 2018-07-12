@@ -17,5 +17,5 @@ test('creates correct viewport matrix', function () {
         screenWidth: 640,
         screenHeight: 480
     });
-    expect(A).toEqual(new _matrix2.default([[64, 0, 0, 0], [0, -48, 0, 0], [0, 0, 0, 0], [320, 240, 0, 1]]));
+    expect(A).toEqual(new _matrix2.default([[64, 0, 0, 0], [0, -48, 0, 0], [0, 0, 1, 0], [320, 240, 0, 1]]));
 });
