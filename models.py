@@ -16,9 +16,9 @@ class Page(models.Model):
         default=choices.CANVAS
     )
 
-    title = models.CharField(max_length=256, default='')
-    url_title = models.CharField(max_length=256, default='')
-    text = models.CharField(max_length=256, default='')
+    title = models.CharField(max_length=255, default='')
+    url_title = models.CharField(max_length=255, default='', unique=True)
+    text = models.CharField(max_length=255, default='')
 
     def __str__(self):
         return self.title
@@ -28,7 +28,8 @@ class Page(models.Model):
         db_table = 'mathvisualized_page'
 
 class Category(models.Model):
-    name = models.CharField(max_length=256, default='')
+    name = models.CharField(max_length=255, default='')
+    url_title = models.CharField(max_length=255, default='', unique=True)
 
     def __str__(self):
         return self.name
@@ -43,7 +44,8 @@ class Subcategory(models.Model):
         on_delete=models.SET_DEFAULT,
         default=1
     )
-    name = models.CharField(max_length=256, default='')
+    name = models.CharField(max_length=255, default='')
+    url_title = models.CharField(max_length=255, default='', unique=True)
 
     def __str__(self):
         return self.name

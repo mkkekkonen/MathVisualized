@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import mathvisualized.choices as choices
 from .models import Category, Subcategory, Page
+from os.path import join
 
 def home(request):
     lists = get_lists()
@@ -12,8 +13,22 @@ def home(request):
 def page(request, name):
     lists = get_lists()
     page = Page.objects.get(url_title=name)
-    page_content_url = 'page_content/' + page.url_title + '.html'
-    js_url = 'mathvisualized/js/entry_point_bundles/' + page.url_title + '.js'
+    page_subcategory = page.subcategory
+    page_category = page_subcategory.category
+    # page_content_url = 'page_content/' + page.url_title + '.html'
+    page_content_url = join(
+        'page_content',
+        page_category.url_title,
+        page_subcategory.url_title,
+        page.url_title + '.html',
+    )
+    # js_url = 'mathvisualized/js/entry_point_bundles/' + page.url_title + '.js'
+    js_url = join(
+        'mathvisualized/js/entry_point_bundles',
+        page_category.url_title,
+        page_subcategory.url_title,
+        page.url_title + '.js',
+    )
     context= {
         'page': page,
         'page_content_url': page_content_url,
