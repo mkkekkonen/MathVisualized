@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'mathvisualized/css/mathvisualized.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/mathvisualized.css' %}" />
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto"> 
-<link rel="stylesheet" type="text/css" href="{% static 'mathvisualized/jslib/katex.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'jslib/katex.min.css' %}" />
 
 {% include "components/sidebar.html" with lists=sidebar_lists %}
 
@@ -19,8 +19,8 @@
 </div>
 
 {% if page.js_lib == choices.BONSAI %}
-    <script src="{% static 'mathvisualized/jslib/bonsai-0.4.1.min.js' %}"></script>
+    <script src="{% static 'jslib/bonsai-0.4.1.min.js' %}"></script>
 {% endif %}
 
 <script src="{% static js_url %}"></script>
-<script src="{% static 'mathvisualized/jslib/katex.min.js' %}"></script>
+<script src="{% static 'jslib/katex.min.js' %}"></script>

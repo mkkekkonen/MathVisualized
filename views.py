@@ -24,7 +24,7 @@ def page(request, name):
     )
     # js_url = 'mathvisualized/js/entry_point_bundles/' + page.url_title + '.js'
     js_url = join(
-        'mathvisualized/js/entry_point_bundles',
+        'js/entry_point_bundles',
         page_category.url_title,
         page_subcategory.url_title,
         page.url_title + '.js',
