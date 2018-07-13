@@ -1,19 +1,10 @@
-'use strict';
+const worldWidth = 10;
+const worldHeight = 10;
+const movieWidth = 480;
+const movieHeight = 480;
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var worldWidth = 10;
-var worldHeight = 10;
-var movieWidth = 480;
-var movieHeight = 480;
+const black = '#000';
 
-var black = '#000';
+const strokeWidth = 2;
 
-var strokeWidth = 2;
-
-exports.worldWidth = worldWidth;
-exports.worldHeight = worldHeight;
-exports.movieWidth = movieWidth;
-exports.movieHeight = movieHeight;
-exports.black = black;
+export { worldWidth, worldHeight, movieWidth, movieHeight, black };

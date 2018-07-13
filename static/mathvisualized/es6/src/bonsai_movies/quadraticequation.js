@@ -1,4 +1,4 @@
-import { worldWidth, worldHeight, movieWidth, movieHeight } from '../constants/curveequation';
+import { worldWidth, worldHeight, movieWidth, movieHeight } from '../constants/quadraticequation';
 import Vector3 from '../math/vector'
 import createViewportMatrix from '../math/viewport';
 

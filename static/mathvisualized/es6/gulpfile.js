@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 var browserify = require('browserify');
 var gulp = require('gulp');
 var source = require('vinyl-source-stream');
@@ -19,14 +21,16 @@ gulp.task('bonsai', function() {
     var bundleFiles = function(filenames) {
         filenames.forEach(function(filename) {
             var filenameWithoutExtension = filename.split('.')[0];
-            var sourceFilePath = './bonsai_movies/' + filenameWithoutExtension + '.js';
-            var bundle = browserify([sourceFilePath]).bundle();
+            var sourceFilePath = './src/bonsai_movies/' + filenameWithoutExtension + '.js';
+            var bundle = browserify([sourceFilePath])
+                .transform("babelify", {presets: ["@babel/preset-env"]})
+                .bundle();
             bundle.pipe(source(filenameWithoutExtension + '.js'))
-                .pipe(gulp.dest('./bonsai_movie_bundles/'));
+                .pipe(gulp.dest('../js/bonsai_movie_bundles/'));
         });
     }
 
-    bundleFiles(fs.readdirSync('bonsai_movies'));
+    bundleFiles(fs.readdirSync('src/bonsai_movies'));
 });
 
 gulp.task('konva', function() {
@@ -37,17 +41,24 @@ gulp.task('konva', function() {
                 sourceFolderPath,
                 filenameWithoutExtension + '.js'
             );
-            var destinationFolderPath = sourceFolderPath.replace(
-                'entry_points',
-                'entry_point_bundles'
+            var sourceFolderPathSplit = sourceFolderPath.split('/');
+            var category = sourceFolderPathSplit[2];
+            var subcategory = sourceFolderPathSplit[3];
+            var destinationFolderPath = path.join(
+                '../js/entry_point_bundles',
+                category,
+                subcategory,
             );
-            var bundle = browserify([sourceFilePath]).bundle();
+            console.log(destinationFolderPath);
+            var bundle = browserify([sourceFilePath])
+                .transform("babelify", {presets: ["@babel/preset-env"]})
+                .bundle();
             bundle.pipe(source(filenameWithoutExtension + '.js'))
                 .pipe(gulp.dest(destinationFolderPath));
         });
     }
 
-    var categoryFolders = getDirectories('entry_points');
+    var categoryFolders = getDirectories('src/entry_points');
     categoryFolders.forEach(function(categoryFolderPath) {
         var subcategoryFolders = getDirectories(categoryFolderPath)
         subcategoryFolders.forEach(function(subcategoryFolderPath) {
@@ -57,13 +68,11 @@ gulp.task('konva', function() {
             );
         });
     });
-
-    
 });
 
 gulp.task('watch', function() {
-    gulp.watch('./bonsai_movies/*.js', ['bonsai']);
-    gulp.watch('./entry_points/*.js', ['konva']);
+    gulp.watch('./src/bonsai_movies/*.js', ['bonsai']);
+    gulp.watch('./src/entry_points/*/*/*.js', ['konva']);
 });
 
 gulp.task('default', ['bonsai', 'konva', 'watch']);

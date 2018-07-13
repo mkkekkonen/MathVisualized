@@ -1,62 +1,48 @@
-'use strict';
+import { worldWidth, worldHeight, movieWidth, movieHeight } from '../constants/quadraticequation';
+import Vector3 from '../math/vector';
+import createViewportMatrix from '../math/viewport';
 
-var _curveequation = require('../constants/curveequation');
+const strokeColor = '#000';
+const strokeWidth = 2;
 
-var _vector = require('../math/vector');
-
-var _vector2 = _interopRequireDefault(_vector);
-
-var _viewport = require('../math/viewport');
-
-var _viewport2 = _interopRequireDefault(_viewport);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var strokeColor = '#000';
-var strokeWidth = 2;
-
-var dummyEquation = 'y = x^2 + 4x - 2';
+const dummyEquation = 'y = x^2 + 4x - 2';
 
 stage.setBackgroundColor('#ccc');
 
-var viewportMatrix = (0, _viewport2.default)({
-    worldWidth: _curveequation.worldWidth,
-    worldHeight: _curveequation.worldHeight,
-    screenWidth: _curveequation.movieWidth,
-    screenHeight: _curveequation.movieHeight
+const viewportMatrix = createViewportMatrix({
+    worldWidth,
+    worldHeight,
+    screenWidth: movieWidth,
+    screenHeight: movieHeight
 });
 
-var xStart = new _vector2.default({ x: -5, y: 0, z: 0 });
+let xStart = new Vector3({ x: -5, y: 0, z: 0 });
 xStart = viewportMatrix.multiplyVector(xStart);
 
-var xEnd = new _vector2.default({ x: 5, y: 0, z: 0 });
+let xEnd = new Vector3({ x: 5, y: 0, z: 0 });
 xEnd = viewportMatrix.multiplyVector(xEnd);
 
-var xAxis = new Path();
+const xAxis = new Path();
 xAxis.moveTo(xStart.x, xStart.y).lineTo(xEnd.x, xEnd.y);
 xAxis.attr('strokeColor', strokeColor);
 xAxis.attr('strokeWidth', strokeWidth);
 xAxis.addTo(stage);
 
-var yStart = new _vector2.default({ x: 0, y: -5, z: 0 });
+let yStart = new Vector3({ x: 0, y: -5, z: 0 });
 yStart = viewportMatrix.multiplyVector(yStart);
 
-var yEnd = new _vector2.default({ x: 0, y: 5, z: 0 });
+let yEnd = new Vector3({ x: 0, y: 5, z: 0 });
 yEnd = viewportMatrix.multiplyVector(yEnd);
 
-var yAxis = new Path();
+const yAxis = new Path();
 yAxis.moveTo(yStart.x, yStart.y).lineTo(yEnd.x, yEnd.y);
 yAxis.attr('strokeColor', strokeColor);
 yAxis.attr('strokeWidth', strokeWidth);
 yAxis.addTo(stage);
 
-var curve = null;
+let curve = null;
 
-var plotCurve = function plotCurve(_ref) {
-    var a = _ref.a,
-        b = _ref.b,
-        c = _ref.c;
-
+const plotCurve = ({ a, b, c }) => {
     if (curve) {
         curve.remove();
         curve = null;
@@ -64,10 +50,10 @@ var plotCurve = function plotCurve(_ref) {
 
     curve = new Path();
 
-    for (var x = -5; x <= 5; x += 0.1) {
-        var y = a * x * x + b * x + c;
+    for (let x = -5; x <= 5; x += 0.1) {
+        const y = a * x * x + b * x + c;
 
-        var coords = new _vector2.default({ x: x, y: y, z: 0 });
+        let coords = new Vector3({ x, y, z: 0 });
         coords = viewportMatrix.multiplyVector(coords);
 
         if (x === -5) {
@@ -82,7 +68,7 @@ var plotCurve = function plotCurve(_ref) {
     curve.addTo(stage);
 };
 
-stage.on('message:updateEquation', function (coefficients) {
+stage.on('message:updateEquation', coefficients => {
     plotCurve(coefficients);
 });
 

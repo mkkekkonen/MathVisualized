@@ -1,58 +1,44 @@
-'use strict';
+import Konva from 'konva';
+import { movieWidth, movieHeight, worldWidth, worldHeight, black, strokeWidth } from '../../../constants/global';
+import Vector3 from '../../../math/vector';
+import createViewportMatrix, { createReverseViewportMatrix } from '../../../math/viewport';
+import { round } from '../../../math/util';
 
-var _konva = require('konva');
-
-var _konva2 = _interopRequireDefault(_konva);
-
-var _global = require('../../../constants/global');
-
-var _vector = require('../../../math/vector');
-
-var _vector2 = _interopRequireDefault(_vector);
-
-var _viewport = require('../../../math/viewport');
-
-var _viewport2 = _interopRequireDefault(_viewport);
-
-var _util = require('../../../math/util');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var stage = new _konva2.default.Stage({
+const stage = new Konva.Stage({
     container: document.getElementById('canvas'),
-    width: _global.movieWidth,
-    height: _global.movieHeight
+    width: movieWidth,
+    height: movieHeight
 });
 
-var layer = new _konva2.default.Layer();
+const layer = new Konva.Layer();
 
 stage.add(layer);
 
-var viewportMatrix = (0, _viewport2.default)({
-    worldWidth: _global.worldWidth,
-    worldHeight: _global.worldHeight,
-    screenWidth: _global.movieWidth,
-    screenHeight: _global.movieHeight
+const viewportMatrix = createViewportMatrix({
+    worldWidth,
+    worldHeight,
+    screenWidth: movieWidth,
+    screenHeight: movieHeight
 });
 
-var reverseViewportMatrix = (0, _viewport.createReverseViewportMatrix)({
-    worldWidth: _global.worldWidth,
-    worldHeight: _global.worldHeight,
-    screenWidth: _global.movieWidth,
-    screenHeight: _global.movieHeight
+const reverseViewportMatrix = createReverseViewportMatrix({
+    worldWidth,
+    worldHeight,
+    screenWidth: movieWidth,
+    screenHeight: movieHeight
 });
 
-var previousPoint = null;
-var currentPoint = null;
+let previousPoint = null;
+let currentPoint = null;
 
-var line = null;
+let line = null;
 
-var formatOutput = function formatOutput(distance) {
-    return 'Point 1: ' + previousPoint.toString() + '\nPoint 2: ' + currentPoint.toString() + '\nDistance: ' + (0, _util.round)(distance);
-};
+const formatOutput = distance => `Point 1: ${previousPoint.toString()}
+Point 2: ${currentPoint.toString()}
+Distance: ${round(distance)}`;
 
-var calculateAndOutputDistance = function calculateAndOutputDistance() {
-    var distance = 0;
+const calculateAndOutputDistance = () => {
+    let distance = 0;
     if (previousPoint && currentPoint) {
         distance = previousPoint.distanceFrom(currentPoint);
         document.getElementById('output').innerHTML = formatOutput(distance);
@@ -60,32 +46,32 @@ var calculateAndOutputDistance = function calculateAndOutputDistance() {
     return distance;
 };
 
-var drawLine = function drawLine() {
+const drawLine = () => {
     if (previousPoint && currentPoint) {
-        var screenPreviousPoint = viewportMatrix.multiplyVector(previousPoint);
-        var screenCurrentPoint = viewportMatrix.multiplyVector(currentPoint);
+        const screenPreviousPoint = viewportMatrix.multiplyVector(previousPoint);
+        const screenCurrentPoint = viewportMatrix.multiplyVector(currentPoint);
         layer.removeChildren();
-        line = new _konva2.default.Line({
+        line = new Konva.Line({
             points: [screenPreviousPoint.x, screenPreviousPoint.y, screenCurrentPoint.x, screenCurrentPoint.y],
-            stroke: _global.black,
-            strokeWidth: _global.strokeWidth
+            stroke: black,
+            strokeWidth
         });
         layer.add(line);
         layer.draw();
     }
 };
 
-stage.on('click', function () {
+stage.on('click', () => {
     previousPoint = currentPoint;
 
-    var location = stage.getPointerPosition();
-    var locationVector = new _vector2.default({
+    const location = stage.getPointerPosition();
+    const locationVector = new Vector3({
         x: location.x,
         y: location.y,
         z: 0
     });
 
-    var worldVector = reverseViewportMatrix.multiplyVector(locationVector);
+    const worldVector = reverseViewportMatrix.multiplyVector(locationVector);
 
     currentPoint = worldVector;
 

@@ -3,4 +3,4 @@ const worldHeight = 10;
 const movieWidth = 480;
 const movieHeight = 480;
 
-export { worldWidth, worldHeight, movieWidth, movieHeight };
+export { worldWidth, worldHeight, movieWidth, movieHeight }; 
