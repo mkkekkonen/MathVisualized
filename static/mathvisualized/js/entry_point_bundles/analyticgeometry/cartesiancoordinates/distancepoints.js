@@ -25,17 +25,17 @@ var _konva = require('konva');
 
 var _konva2 = _interopRequireDefault(_konva);
 
-var _global = require('../constants/global');
+var _global = require('../../../constants/global');
 
-var _vector = require('../math/vector');
+var _vector = require('../../../math/vector');
 
 var _vector2 = _interopRequireDefault(_vector);
 
-var _viewport = require('../math/viewport');
+var _viewport = require('../../../math/viewport');
 
 var _viewport2 = _interopRequireDefault(_viewport);
 
-var _util = require('../math/util');
+var _util = require('../../../math/util');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -113,7 +113,7 @@ stage.on('click', function () {
     calculateAndOutputDistance();
     drawLine();
 });
-},{"../constants/global":1,"../math/util":4,"../math/vector":5,"../math/viewport":6,"konva":7}],3:[function(require,module,exports){
+},{"../../../constants/global":1,"../../../math/util":4,"../../../math/vector":5,"../../../math/viewport":6,"konva":7}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

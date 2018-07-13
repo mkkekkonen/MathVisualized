@@ -4,17 +4,17 @@ var _konva = require('konva');
 
 var _konva2 = _interopRequireDefault(_konva);
 
-var _global = require('../constants/global');
+var _global = require('../../../constants/global');
 
-var _vector = require('../math/vector');
+var _vector = require('../../../math/vector');
 
 var _vector2 = _interopRequireDefault(_vector);
 
-var _viewport = require('../math/viewport');
+var _viewport = require('../../../math/viewport');
 
 var _viewport2 = _interopRequireDefault(_viewport);
 
-var _util = require('../math/util');
+var _util = require('../../../math/util');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
