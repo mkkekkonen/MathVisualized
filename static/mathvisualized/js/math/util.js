@@ -1,10 +1,3 @@
-"use strict";
+const round = number => Math.round(number * 100) / 100;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var round = function round(number) {
-  return Math.round(number * 100) / 100;
-};
-
-exports.round = round;
+export { round };

@@ -1,312 +1,4 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var worldWidth = 10;
-var worldHeight = 10;
-var movieWidth = 480;
-var movieHeight = 480;
-
-var black = '#000';
-
-var strokeWidth = 2;
-
-exports.worldWidth = worldWidth;
-exports.worldHeight = worldHeight;
-exports.movieWidth = movieWidth;
-exports.movieHeight = movieHeight;
-exports.black = black;
-},{}],2:[function(require,module,exports){
-'use strict';
-
-var _konva = require('konva');
-
-var _konva2 = _interopRequireDefault(_konva);
-
-var _global = require('../../../constants/global');
-
-var _vector = require('../../../math/vector');
-
-var _vector2 = _interopRequireDefault(_vector);
-
-var _viewport = require('../../../math/viewport');
-
-var _viewport2 = _interopRequireDefault(_viewport);
-
-var _util = require('../../../math/util');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var stage = new _konva2.default.Stage({
-    container: document.getElementById('canvas'),
-    width: _global.movieWidth,
-    height: _global.movieHeight
-});
-
-var layer = new _konva2.default.Layer();
-
-stage.add(layer);
-
-var viewportMatrix = (0, _viewport2.default)({
-    worldWidth: _global.worldWidth,
-    worldHeight: _global.worldHeight,
-    screenWidth: _global.movieWidth,
-    screenHeight: _global.movieHeight
-});
-
-var reverseViewportMatrix = (0, _viewport.createReverseViewportMatrix)({
-    worldWidth: _global.worldWidth,
-    worldHeight: _global.worldHeight,
-    screenWidth: _global.movieWidth,
-    screenHeight: _global.movieHeight
-});
-
-var previousPoint = null;
-var currentPoint = null;
-
-var line = null;
-
-var formatOutput = function formatOutput(distance) {
-    return 'Point 1: ' + previousPoint.toString() + '\nPoint 2: ' + currentPoint.toString() + '\nDistance: ' + (0, _util.round)(distance);
-};
-
-var calculateAndOutputDistance = function calculateAndOutputDistance() {
-    var distance = 0;
-    if (previousPoint && currentPoint) {
-        distance = previousPoint.distanceFrom(currentPoint);
-        document.getElementById('output').innerHTML = formatOutput(distance);
-    }
-    return distance;
-};
-
-var drawLine = function drawLine() {
-    if (previousPoint && currentPoint) {
-        var screenPreviousPoint = viewportMatrix.multiplyVector(previousPoint);
-        var screenCurrentPoint = viewportMatrix.multiplyVector(currentPoint);
-        layer.removeChildren();
-        line = new _konva2.default.Line({
-            points: [screenPreviousPoint.x, screenPreviousPoint.y, screenCurrentPoint.x, screenCurrentPoint.y],
-            stroke: _global.black,
-            strokeWidth: _global.strokeWidth
-        });
-        layer.add(line);
-        layer.draw();
-    }
-};
-
-stage.on('click', function () {
-    previousPoint = currentPoint;
-
-    var location = stage.getPointerPosition();
-    var locationVector = new _vector2.default({
-        x: location.x,
-        y: location.y,
-        z: 0
-    });
-
-    var worldVector = reverseViewportMatrix.multiplyVector(locationVector);
-
-    currentPoint = worldVector;
-
-    calculateAndOutputDistance();
-    drawLine();
-});
-},{"../../../constants/global":1,"../../../math/util":4,"../../../math/vector":5,"../../../math/viewport":6,"konva":7}],3:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _vector = require("./vector");
-
-var _vector2 = _interopRequireDefault(_vector);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Matrix4x4 = function () {
-    function Matrix4x4(matrix) {
-        _classCallCheck(this, Matrix4x4);
-
-        if (!matrix) {
-            this.matrix = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
-        } else {
-            this.matrix = matrix;
-        }
-    }
-
-    // See https://en.wikipedia.org/wiki/Matrix_multiplication
-
-
-    _createClass(Matrix4x4, [{
-        key: "multiply",
-        value: function multiply(otherMatrix) {
-            var newMatrixArray = [];
-
-            for (var i = 0; i < 4; i += 1) {
-                newMatrixArray.push([]);
-                for (var j = 0; j < 4; j += 1) {
-                    var cij = 0;
-                    for (var m = 0; m < 4; m += 1) {
-                        cij += this.ij(i, m) * otherMatrix.ij(m, j);
-                    }
-                    newMatrixArray[i].push(cij);
-                }
-            }
-
-            return new Matrix4x4(newMatrixArray);
-        }
-    }, {
-        key: "multiplyVector",
-        value: function multiplyVector(vector) {
-            var x = this.ij(0, 0) * vector.x + this.ij(1, 0) * vector.y + this.ij(2, 0) * vector.z + this.ij(3, 0) * vector.w;
-            var y = this.ij(0, 1) * vector.x + this.ij(1, 1) * vector.y + this.ij(2, 1) * vector.z + this.ij(3, 1) * vector.w;
-            var z = this.ij(0, 2) * vector.x + this.ij(1, 2) * vector.y + this.ij(2, 2) * vector.z + this.ij(3, 2) * vector.w;
-            var w = this.ij(0, 3) * vector.x + this.ij(1, 3) * vector.y + this.ij(2, 3) * vector.z + this.ij(3, 3) * vector.w;
-            return new _vector2.default({ x: x, y: y, z: z });
-        }
-    }, {
-        key: "ij",
-        value: function ij(i, j) {
-            if (!this.matrix[i]) console.log("The i causing trouble: " + i);
-            return this.matrix[i][j];
-        }
-    }], [{
-        key: "scale",
-        value: function scale(_ref) {
-            var x = _ref.x,
-                y = _ref.y,
-                z = _ref.z;
-
-            return new Matrix4x4([[x, 0, 0, 0], [0, y, 0, 0], [0, 0, z, 0], [0, 0, 0, 1]]);
-        }
-    }, {
-        key: "translate",
-        value: function translate(_ref2) {
-            var x = _ref2.x,
-                y = _ref2.y,
-                z = _ref2.z;
-
-            return new Matrix4x4([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [x, y, z, 1]]);
-        }
-    }]);
-
-    return Matrix4x4;
-}();
-
-exports.default = Matrix4x4;
-},{"./vector":5}],4:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var round = function round(number) {
-  return Math.round(number * 100) / 100;
-};
-
-exports.round = round;
-},{}],5:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _util = require('./util');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Vector3 = function () {
-    function Vector3(_ref) {
-        var x = _ref.x,
-            y = _ref.y,
-            z = _ref.z,
-            w = _ref.w;
-
-        _classCallCheck(this, Vector3);
-
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.w = w || 1;
-    }
-
-    _createClass(Vector3, [{
-        key: 'distanceFrom',
-        value: function distanceFrom(vector) {
-            return Math.sqrt(Math.pow(vector.x - this.x, 2) + Math.pow(vector.y - this.y, 2));
-        }
-    }, {
-        key: 'toString',
-        value: function toString() {
-            return 'Vector3 ~ (' + (0, _util.round)(this.x) + ', ' + (0, _util.round)(this.y) + ', ' + (0, _util.round)(this.z) + ')';
-        }
-    }]);
-
-    return Vector3;
-}();
-
-exports.default = Vector3;
-},{"./util":4}],6:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.createReverseViewportMatrix = undefined;
-
-var _matrix = require('./matrix');
-
-var _matrix2 = _interopRequireDefault(_matrix);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var createViewportMatrix = function createViewportMatrix(_ref) {
-    var worldWidth = _ref.worldWidth,
-        worldHeight = _ref.worldHeight,
-        screenWidth = _ref.screenWidth,
-        screenHeight = _ref.screenHeight;
-
-    var scaleX = screenWidth / worldWidth;
-    var scaleY = screenHeight / worldHeight;
-    var translateX = screenWidth / 2;
-    var translateY = screenHeight / 2;
-
-    var scalingMatrix = _matrix2.default.scale({ x: scaleX, y: -scaleY, z: 1 });
-    var translationMatrix = _matrix2.default.translate({ x: translateX, y: translateY, z: 0 });
-    var viewportMatrix = scalingMatrix.multiply(translationMatrix);
-    return viewportMatrix;
-};
-
-var createReverseViewportMatrix = function createReverseViewportMatrix(_ref2) {
-    var worldWidth = _ref2.worldWidth,
-        worldHeight = _ref2.worldHeight,
-        screenWidth = _ref2.screenWidth,
-        screenHeight = _ref2.screenHeight;
-
-    var scaleX = worldWidth / screenWidth;
-    var scaleY = worldHeight / screenHeight;
-    var translateX = screenWidth / 2;
-    var translateY = screenHeight / 2;
-
-    var translationMatrix = _matrix2.default.translate({ x: -translateX, y: -translateY, z: 0 });
-    var scalingMatrix = _matrix2.default.scale({ x: scaleX, y: -scaleY, z: 1 });
-    var worldMatrix = translationMatrix.multiply(scalingMatrix);
-    return worldMatrix;
-};
-
-exports.createReverseViewportMatrix = createReverseViewportMatrix;
-exports.default = createViewportMatrix;
-},{"./matrix":3}],7:[function(require,module,exports){
 (function (global){
 /*
  * Konva JavaScript Framework v2.1.7
@@ -19936,4 +19628,336 @@ exports.default = createViewportMatrix;
 })(Konva);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}]},{},[2]);
+},{}],2:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.black = exports.movieHeight = exports.movieWidth = exports.worldHeight = exports.worldWidth = void 0;
+var worldWidth = 10;
+exports.worldWidth = worldWidth;
+var worldHeight = 10;
+exports.worldHeight = worldHeight;
+var movieWidth = 480;
+exports.movieWidth = movieWidth;
+var movieHeight = 480;
+exports.movieHeight = movieHeight;
+var black = '#000';
+exports.black = black;
+var strokeWidth = 2;
+
+},{}],3:[function(require,module,exports){
+"use strict";
+
+var _konva = _interopRequireDefault(require("konva"));
+
+var _global = require("../../../constants/global");
+
+var _vector = _interopRequireDefault(require("../../../math/vector"));
+
+var _viewport = _interopRequireWildcard(require("../../../math/viewport"));
+
+var _util = require("../../../math/util");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var stage = new _konva.default.Stage({
+  container: document.getElementById('canvas'),
+  width: _global.movieWidth,
+  height: _global.movieHeight
+});
+var layer = new _konva.default.Layer();
+stage.add(layer);
+var viewportMatrix = (0, _viewport.default)({
+  worldWidth: _global.worldWidth,
+  worldHeight: _global.worldHeight,
+  screenWidth: _global.movieWidth,
+  screenHeight: _global.movieHeight
+});
+var reverseViewportMatrix = (0, _viewport.createReverseViewportMatrix)({
+  worldWidth: _global.worldWidth,
+  worldHeight: _global.worldHeight,
+  screenWidth: _global.movieWidth,
+  screenHeight: _global.movieHeight
+});
+var previousPoint = null;
+var currentPoint = null;
+var line = null;
+
+var formatOutput = function formatOutput(distance) {
+  return "Point 1: ".concat(previousPoint.toString(), "\nPoint 2: ").concat(currentPoint.toString(), "\nDistance: ").concat((0, _util.round)(distance));
+};
+
+var calculateAndOutputDistance = function calculateAndOutputDistance() {
+  var distance = 0;
+
+  if (previousPoint && currentPoint) {
+    distance = previousPoint.distanceFrom(currentPoint);
+    document.getElementById('output').innerHTML = formatOutput(distance);
+  }
+
+  return distance;
+};
+
+var drawLine = function drawLine() {
+  if (previousPoint && currentPoint) {
+    var screenPreviousPoint = viewportMatrix.multiplyVector(previousPoint);
+    var screenCurrentPoint = viewportMatrix.multiplyVector(currentPoint);
+    layer.removeChildren();
+    line = new _konva.default.Line({
+      points: [screenPreviousPoint.x, screenPreviousPoint.y, screenCurrentPoint.x, screenCurrentPoint.y],
+      stroke: _global.black,
+      strokeWidth: _global.strokeWidth
+    });
+    layer.add(line);
+    layer.draw();
+  }
+};
+
+stage.on('click', function () {
+  previousPoint = currentPoint;
+  var location = stage.getPointerPosition();
+  var locationVector = new _vector.default({
+    x: location.x,
+    y: location.y,
+    z: 0
+  });
+  var worldVector = reverseViewportMatrix.multiplyVector(locationVector);
+  currentPoint = worldVector;
+  calculateAndOutputDistance();
+  drawLine();
+});
+
+},{"../../../constants/global":2,"../../../math/util":5,"../../../math/vector":6,"../../../math/viewport":7,"konva":1}],4:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _vector = _interopRequireDefault(require("./vector"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Matrix4x4 =
+/*#__PURE__*/
+function () {
+  function Matrix4x4(matrix) {
+    _classCallCheck(this, Matrix4x4);
+
+    if (!matrix) {
+      this.matrix = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+    } else {
+      this.matrix = matrix;
+    }
+  } // See https://en.wikipedia.org/wiki/Matrix_multiplication
+
+
+  _createClass(Matrix4x4, [{
+    key: "multiply",
+    value: function multiply(otherMatrix) {
+      var newMatrixArray = [];
+
+      for (var i = 0; i < 4; i += 1) {
+        newMatrixArray.push([]);
+
+        for (var j = 0; j < 4; j += 1) {
+          var cij = 0;
+
+          for (var m = 0; m < 4; m += 1) {
+            cij += this.ij(i, m) * otherMatrix.ij(m, j);
+          }
+
+          newMatrixArray[i].push(cij);
+        }
+      }
+
+      return new Matrix4x4(newMatrixArray);
+    }
+  }, {
+    key: "multiplyVector",
+    value: function multiplyVector(vector) {
+      var x = this.ij(0, 0) * vector.x + this.ij(1, 0) * vector.y + this.ij(2, 0) * vector.z + this.ij(3, 0) * vector.w;
+      var y = this.ij(0, 1) * vector.x + this.ij(1, 1) * vector.y + this.ij(2, 1) * vector.z + this.ij(3, 1) * vector.w;
+      var z = this.ij(0, 2) * vector.x + this.ij(1, 2) * vector.y + this.ij(2, 2) * vector.z + this.ij(3, 2) * vector.w;
+      var w = this.ij(0, 3) * vector.x + this.ij(1, 3) * vector.y + this.ij(2, 3) * vector.z + this.ij(3, 3) * vector.w;
+      return new _vector.default({
+        x: x,
+        y: y,
+        z: z
+      });
+    }
+  }, {
+    key: "ij",
+    value: function ij(i, j) {
+      if (!this.matrix[i]) console.log("The i causing trouble: ".concat(i));
+      return this.matrix[i][j];
+    }
+  }], [{
+    key: "scale",
+    value: function scale(_ref) {
+      var x = _ref.x,
+          y = _ref.y,
+          z = _ref.z;
+      return new Matrix4x4([[x, 0, 0, 0], [0, y, 0, 0], [0, 0, z, 0], [0, 0, 0, 1]]);
+    }
+  }, {
+    key: "translate",
+    value: function translate(_ref2) {
+      var x = _ref2.x,
+          y = _ref2.y,
+          z = _ref2.z;
+      return new Matrix4x4([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [x, y, z, 1]]);
+    }
+  }]);
+
+  return Matrix4x4;
+}();
+
+var _default = Matrix4x4;
+exports.default = _default;
+
+},{"./vector":6}],5:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.round = void 0;
+
+var round = function round(number) {
+  return Math.round(number * 100) / 100;
+};
+
+exports.round = round;
+
+},{}],6:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _util = require("./util");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Vector3 =
+/*#__PURE__*/
+function () {
+  function Vector3(_ref) {
+    var x = _ref.x,
+        y = _ref.y,
+        z = _ref.z,
+        w = _ref.w;
+
+    _classCallCheck(this, Vector3);
+
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.w = w || 1;
+  }
+
+  _createClass(Vector3, [{
+    key: "distanceFrom",
+    value: function distanceFrom(vector) {
+      return Math.sqrt(Math.pow(vector.x - this.x, 2) + Math.pow(vector.y - this.y, 2));
+    }
+  }, {
+    key: "toString",
+    value: function toString() {
+      return "Vector3 ~ (".concat((0, _util.round)(this.x), ", ").concat((0, _util.round)(this.y), ", ").concat((0, _util.round)(this.z), ")");
+    }
+  }]);
+
+  return Vector3;
+}();
+
+var _default = Vector3;
+exports.default = _default;
+
+},{"./util":5}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.createReverseViewportMatrix = void 0;
+
+var _matrix = _interopRequireDefault(require("./matrix"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createViewportMatrix = function createViewportMatrix(_ref) {
+  var worldWidth = _ref.worldWidth,
+      worldHeight = _ref.worldHeight,
+      screenWidth = _ref.screenWidth,
+      screenHeight = _ref.screenHeight;
+  var scaleX = screenWidth / worldWidth;
+  var scaleY = screenHeight / worldHeight;
+  var translateX = screenWidth / 2;
+  var translateY = screenHeight / 2;
+
+  var scalingMatrix = _matrix.default.scale({
+    x: scaleX,
+    y: -scaleY,
+    z: 1
+  });
+
+  var translationMatrix = _matrix.default.translate({
+    x: translateX,
+    y: translateY,
+    z: 0
+  });
+
+  var viewportMatrix = scalingMatrix.multiply(translationMatrix);
+  return viewportMatrix;
+};
+
+var createReverseViewportMatrix = function createReverseViewportMatrix(_ref2) {
+  var worldWidth = _ref2.worldWidth,
+      worldHeight = _ref2.worldHeight,
+      screenWidth = _ref2.screenWidth,
+      screenHeight = _ref2.screenHeight;
+  var scaleX = worldWidth / screenWidth;
+  var scaleY = worldHeight / screenHeight;
+  var translateX = screenWidth / 2;
+  var translateY = screenHeight / 2;
+
+  var translationMatrix = _matrix.default.translate({
+    x: -translateX,
+    y: -translateY,
+    z: 0
+  });
+
+  var scalingMatrix = _matrix.default.scale({
+    x: scaleX,
+    y: -scaleY,
+    z: 1
+  });
+
+  var worldMatrix = translationMatrix.multiply(scalingMatrix);
+  return worldMatrix;
+};
+
+exports.createReverseViewportMatrix = createReverseViewportMatrix;
+var _default = createViewportMatrix;
+exports.default = _default;
+
+},{"./matrix":4}]},{},[3]);

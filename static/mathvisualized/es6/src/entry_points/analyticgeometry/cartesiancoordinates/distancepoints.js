@@ -2,7 +2,7 @@ import Konva from 'konva';
 import { movieWidth, movieHeight, worldWidth, worldHeight, black, strokeWidth } from '../../../constants/global';
 import Vector3 from '../../../math/vector';
 import createViewportMatrix, { createReverseViewportMatrix } from '../../../math/viewport';
-import { round } from '../../../math/util';
+import { round } from '../../../math/util'; 
 
 const stage = new Konva.Stage({
     container: document.getElementById('canvas'),
