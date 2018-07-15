@@ -6,15 +6,17 @@
 
 {% include "components/sidebar.html" with lists=sidebar_lists %}
 
-<div class="content container">
-    <h1>{{ page.title }}</h1>
-    {% include page_content_url %}
-</div>
+<div class="scroll-container">
+    <div class="content container">
+        <h1>{{ page.title }}</h1>
+        {% include page_content_url %}
+    </div>
 
-<div class="canvas-container container">
-    <div id="canvas"></div>
-    <div>
-        <pre id="output"></pre>
+    <div class="canvas-container container">
+        <div id="canvas"></div>
+        <div>
+            <pre id="output"></pre>
+        </div>
     </div>
 </div>
 

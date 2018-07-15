@@ -1,0 +1,70 @@
+<p>
+    This page demonstrates the mirroring of lines
+    across either one of the coordinate axes or the
+    origin.
+</p>
+
+<p>
+    When the point <span id="xy"></span> is mirrored
+    across the X axis, it is mapped to the point 
+    <span id="xminusy"></span>.
+</p>
+
+<p>
+    When the same point is mirrored across the Y axis,
+    it is mapped to the point <span id="minusxy"></span>.
+</p>
+
+<p>
+    When still the same point is mirrored across the origin,
+    it is mapped to the point <span id="minusxminusy"></span>.
+</p>
+
+<p>
+    As usual, you can draw the line by clicking on the gray box.
+</p>
+
+<div>
+    <fieldset>
+        <legend>Mirror across the</legend>
+        <div>
+            <label>
+                <input id="x" type="radio" name="mirroracross" checked />
+                X axis
+            </label>
+        </div>
+        <div>
+            <label>
+                <input id="y" type="radio" name="mirroracross" />
+                Y axis
+            </label>
+        </div>
+        <div>
+            <label>
+                <input id="o" type="radio" name="mirroracross" />
+                origin
+            </label>
+        </div>
+    </fieldset>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        katex.render(
+            '(x, y)',
+            document.getElementById('xy'),
+        );
+        katex.render(
+            '(x, -y)',
+            document.getElementById('xminusy'),
+        );
+        katex.render(
+            '(-x, y)',
+            document.getElementById('minusxy'),
+        );
+        katex.render(
+            '(-x, -y)',
+            document.getElementById('minusxminusy'),
+        );
+    });
+</script>

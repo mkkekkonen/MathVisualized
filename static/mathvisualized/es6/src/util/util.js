@@ -1,4 +1,5 @@
-import createViewportMatrix, { createReverseViewportMatrix } from '../math/viewport'
+import Konva from 'konva';
+import createViewportMatrix, { createReverseViewportMatrix } from '../math/viewport';
 import { movieWidth, movieHeight, worldWidth, worldHeight } from '../constants/global';
 
 const defaultViewportMatrix = createViewportMatrix({
@@ -15,13 +16,11 @@ const defaultReverseViewportMatrix = createReverseViewportMatrix({
     screenHeight: movieHeight,
 });
 
-const getDefaultKonvaStage = () => {
-    return new Konva.Stage({
-        container: document.getElementById('canvas'),
-        width: movieWidth,
-        height: movieHeight,
-    });
-}
+const getDefaultKonvaStage = () => new Konva.Stage({
+    container: document.getElementById('canvas'),
+    width: movieWidth,
+    height: movieHeight,
+});
 
 export {
     defaultViewportMatrix,
