@@ -1,0 +1,19 @@
+<p>
+    The slope of a line is calculated on this page. As usual, the line
+    can be drawn by clicking on the canvas.
+</p>
+
+<p>
+    The formula for calculating slope is
+</p>
+
+<p id="formula"></p>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        katex.render(
+            'k = \\frac{y_2 - y_1}{x_2 - x_1} \\Leftrightarrow k = \\frac{\\Delta y}{\\Delta x}',
+            document.getElementById('formula'),
+        );
+    });
+</script>

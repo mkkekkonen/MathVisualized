@@ -20,12 +20,35 @@ class Line2D {
         return new Vector3({ x: 0, y: 0, z: 0 });
     }
 
-    toString(midpoint) {
-        return `Line:
-- startPoint: ${this.startPoint.toString()}
-- endPoint: ${this.endPoint.toString()}
-- length: ${round(this.length)}
-${midpoint && `- midpoint: ${this.midpoint.toString()}`}`;
+    get slope() {
+        if (this.startPoint && this.endPoint) {
+            const deltaY = this.endPoint.y - this.startPoint.y;
+            const deltaX = this.endPoint.x - this.startPoint.x;
+            if (deltaX === 0) {
+                return NaN;
+            }
+            return deltaY / deltaX;
+        }
+        return 0;
+    }
+
+    toString(args = {}) {
+        const { midpoint, slope } = args;
+
+        let str = 'Line:\n';
+        str += `- startPoint: ${this.startPoint.toString()}\n`;
+        str += `- endPoint: ${this.endPoint.toString()}\n`;
+        str += `- length: ${round(this.length)}\n`;
+
+        if (midpoint) {
+            str += `- midpoint: ${this.midpoint.toString()}\n`;
+        }
+
+        if (slope) {
+            str += `- slope: ${round(this.slope)}`;
+        }
+
+        return str;
     }
 }
 
