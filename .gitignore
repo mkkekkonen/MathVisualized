@@ -6,3 +6,4 @@ dbdumps/
 /migrations/*.pyc
 /*.pyc
 /static/mathvisualized/js/
+/static/mathvisualized/css/

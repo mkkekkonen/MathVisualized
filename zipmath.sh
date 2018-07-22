@@ -1,2 +1,2 @@
 DATE=`date +%Y%m%d`
-zip -r mathvisualized-$DATE.zip . --exclude=*static* --exclude=*.git*
+zip -r mathvisualized-$DATE.zip . --exclude=*static* --exclude=*.git* --exclude=*.zip

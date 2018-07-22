@@ -4,6 +4,7 @@ const movieWidth = 480;
 const movieHeight = 480;
 
 const black = '#000';
+const darkGrey = '#999';
 const red = '#f00';
 
 const strokeWidth = 2;
@@ -12,6 +13,6 @@ const dotRadius = 4;
 export {
     worldWidth, worldHeight,
     movieWidth, movieHeight,
-    black, red,
+    black, darkGrey, red,
     strokeWidth, dotRadius,
 };

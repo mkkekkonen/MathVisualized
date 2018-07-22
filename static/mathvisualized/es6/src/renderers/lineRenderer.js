@@ -2,14 +2,14 @@ import Konva from 'konva';
 import { defaultViewportMatrix } from '../util/util';
 import { black, red, strokeWidth, dotRadius } from '../constants/global';
 
-const addLineToLayer = ({ line, layer }) => {
+const addLineToLayer = ({ line, layer, strokeColor }) => {
     if (line.startPoint && line.endPoint) {
         const screenStartPoint = defaultViewportMatrix.multiplyVector(line.startPoint);
         const screenEndPoint = defaultViewportMatrix.multiplyVector(line.endPoint);
         const konvaLine = new Konva.Line({
             points: [screenStartPoint.x, screenStartPoint.y,
                 screenEndPoint.x, screenEndPoint.y],
-            stroke: black,
+            stroke: strokeColor || black,
             strokeWidth,
         });
         layer.add(konvaLine);

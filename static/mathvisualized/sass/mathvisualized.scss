@@ -41,6 +41,12 @@ body {
     width: 38vw; 
 }
 
+.scroll-container {
+    float: right;
+    height: 100vh;
+    overflow-y: scroll;
+}
+
 .content {
 
     h1 {
@@ -61,12 +67,21 @@ body {
     .input-container {
         margin-bottom: 10px;
     }
+
+    fieldset {
+        padding: 15px;
+    }
 }
 
 .canvas-container {
 
     #canvas {
         background-color: #ccc;
+        min-width: 480px;
+
+        canvas {
+            min-width: 480px;
+        }
     }
 }
 
