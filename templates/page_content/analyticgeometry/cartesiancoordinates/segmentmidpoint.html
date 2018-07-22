@@ -1,0 +1,19 @@
+<p>
+    Here you can calculate the midpoint of a line segment. You can set
+    the line endpoints by clicking on the canvas.
+</p>
+
+<p>
+    The formula for calculating the midpoint is
+</p>
+
+<p id="formula"></p>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        katex.render(
+            '(\\frac{x_1 + x_2}{2}, \\frac{y_1 + y_2}{2})',
+            document.getElementById('formula'),
+        );
+    });
+</script>

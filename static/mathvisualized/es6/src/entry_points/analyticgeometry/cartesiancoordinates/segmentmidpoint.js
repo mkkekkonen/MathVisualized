@@ -1,6 +1,6 @@
 import Konva from 'konva';
 import { getDefaultKonvaStage } from '../../../util/util';
-import { addLineToLayer } from '../../../renderers/lineRenderer';
+import { addLineToLayer, addLineMidpointToLayer } from '../../../renderers/lineRenderer';
 import { updateLineOnClick } from '../../../updaters/lineUpdater';
 import Line2D from '../../../math/geometry/line2D';
 
@@ -14,8 +14,9 @@ stage.on('click', () => {
     layer.removeChildren();
     updateLineOnClick({ line, stage });
     if (line.startPoint && line.endPoint) {
-        document.getElementById('output').innerHTML = line.toString();
+        document.getElementById('output').innerHTML = line.toString(true);
         addLineToLayer({ line, layer });
+        addLineMidpointToLayer({ line, layer });
         layer.draw();
     }
 });

@@ -71,7 +71,7 @@ gulp.task('konva', function() {
 
 gulp.task('watch', function() {
     gulp.watch('./src/bonsai_movies/*.js', ['bonsai']);
-    gulp.watch('./src/entry_points/*/*/*.js', ['konva']);
+    gulp.watch('./src/**/*.js', ['konva']);
 });
 
 gulp.task('default', ['bonsai', 'konva', 'watch']);
