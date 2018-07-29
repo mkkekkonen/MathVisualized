@@ -22,8 +22,14 @@ const getDefaultKonvaStage = () => new Konva.Stage({
     height: movieHeight,
 });
 
+const parseFloatById = (id) => {
+    const valueString = document.getElementById(id).value;
+    return valueString.length > 0 ? parseFloat(valueString) : 0;
+};
+
 export {
     defaultViewportMatrix,
     defaultReverseViewportMatrix,
     getDefaultKonvaStage,
+    parseFloatById,
 };

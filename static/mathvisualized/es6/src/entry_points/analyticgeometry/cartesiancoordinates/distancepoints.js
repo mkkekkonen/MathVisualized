@@ -1,9 +1,9 @@
 import Konva from 'konva';
 import { getDefaultKonvaStage } from '../../../util/util';
 import { addAxesToLayer } from '../../../renderers/axis2DRenderer';
-import { addLineToLayer } from '../../../renderers/lineRenderer';
-import { updateLineOnClick } from '../../../updaters/lineUpdater';
-import Line2D from '../../../math/geometry/line2D';
+import { addLineSegmentToLayer } from '../../../renderers/lineSegmentRenderer';
+import { updateLineOnClick } from '../../../updaters/lineSegmentUpdater';
+import LineSegment2D from '../../../math/geometry/lineSegment2D';
 
 const stage = getDefaultKonvaStage();
 const layer = new Konva.Layer();
@@ -12,7 +12,7 @@ stage.add(layer);
 addAxesToLayer(layer);
 layer.draw();
 
-const line = new Line2D({ startPoint: null, endPoint: null });
+const line = new LineSegment2D({ startPoint: null, endPoint: null });
 
 const clickTapHandler = () => {
     layer.removeChildren();
@@ -20,7 +20,7 @@ const clickTapHandler = () => {
     updateLineOnClick({ line, stage });
     if (line.startPoint && line.endPoint) {
         document.getElementById('output').innerHTML = line.toString();
-        addLineToLayer({ line, layer });
+        addLineSegmentToLayer({ line, layer });
         layer.draw();
     }
 };
