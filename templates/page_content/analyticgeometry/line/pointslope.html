@@ -20,6 +20,13 @@
 
 <div class="input-container">
     <label>
+        <input id="vertical" type="checkbox" />
+        No slope (vertical line)
+    </label>
+</div>
+
+<div class="input-container">
+    <label>
         <input id="slope" type="number" step="0.1" />
         <strong>slope</strong>
     </label>
@@ -44,7 +51,21 @@
 <button id="drawButton">Draw line</button>
 
 <script>
+    document.getElementById('vertical').addEventListener('change', function(event) {
+        var slopeInput = document.getElementById('slope');
+        if (event.target.checked) {
+            slopeInput.disabled = true;
+        }
+        else {
+            slopeInput.disabled = false;
+        }
+    })
+
     document.addEventListener('DOMContentLoaded', function () {
+        if (document.getElementById('vertical').checked) {
+            slopeInput.disabled = true;
+        }
+        
         katex.render(
             'y - y_0 = k(x - x_0)',
             document.getElementById('formula'),
