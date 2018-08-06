@@ -10,6 +10,13 @@ def home(request):
     }
     return render(request, 'index.html', context)
 
+def sources(request):
+    lists = get_lists()
+    context = {
+        'sidebar_lists': lists
+    }
+    return render(request, 'sources.html', context)
+
 def page(request, name):
     lists = get_lists()
     page = Page.objects.get(url_title=name)

@@ -2,7 +2,7 @@
     <div class="button-container">
         <button id="menu-button">Menu</button>
     </div>
-    <div id="sidebarContent" class="transition hidden">
+    <div id="sidebarContent" class="sidebar-content transition hidden">
         {% for category in lists.category_list %}
             <h3>{{ category.name }}</h3>
             {% for subcategory in lists.subcategory_list %}
@@ -14,6 +14,7 @@
                 {% endfor %}
             {% endfor %}
         {% endfor %}
+        <a href="/mathvisualized/sources"><h3>Sources</h3></a>
     </div>
 </div>
 

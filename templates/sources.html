@@ -1,0 +1,22 @@
+<body>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'mathvisualized/css/mathvisualized.css' %}" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto"> 
+
+    {% include "components/sidebar.html" with lists=sidebar_lists %}
+
+    <div class="content container">
+        <h1>Sources</h1>
+        <ul>
+            <li>
+                Kontkanen, P. – Liira, R. – Luosto, K. – Ronkainen, A. –
+                Savolainen, S. 2005: Pyramidi 4. Lukion pitkä matematiikka. 
+                Analyyttinen geometria. Tammi, Helsinki.
+            </li>
+        </ul>
+    </div>
+
+    <div class="canvas-container container">
+        
+    </div>
+</body>
