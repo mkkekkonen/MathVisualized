@@ -109,17 +109,45 @@ body {
     input {
         border-radius: 5px;
         padding: 10px;
+
+        @media screen and (max-width: 1000px) {
+            font-size: 200%;
+
+            &[type="checkbox"] {
+                min-width: 1em;
+                min-height: 1em;
+            }
+        }
     }
 
     fieldset {
         padding: 15px;
+
+        @media screen and (max-width: 1000px) {
+            font-size: 200%;
+
+            input[type="radio"] {
+                min-width: 0.5em;
+                min-height: 0.5em;
+            }
+        }
+    }
+
+    button {
+        @media screen and (max-width: 1000px) {
+            font-size: 200%;
+        }
     }
 
     .input-container {
         margin-bottom: 10px;
+
+        label {
+            white-space: nowrap;
+        }
     }
 
-    @media screen and (max-width: 1550px) {
+    @media screen and (max-width: 1000px) {
         .katex {
             font-size: 200%;
         }
@@ -138,7 +166,7 @@ body {
         }
     }
 
-    @media screen and (max-width: 1550px) {    
+    @media screen and (max-width: 1000px) {    
         pre#output {
             font-size: 200%;
             max-width: 100vw;
