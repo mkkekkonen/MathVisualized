@@ -26,7 +26,7 @@ body {
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 16px;
+            font-size: 200%;
         }
     }
 
@@ -111,12 +111,18 @@ body {
         padding: 10px;
     }
 
+    fieldset {
+        padding: 15px;
+    }
+
     .input-container {
         margin-bottom: 10px;
     }
 
-    fieldset {
-        padding: 15px;
+    @media screen and (max-width: 1550px) {
+        .katex {
+            font-size: 200%;
+        }
     }
 }
 
@@ -129,6 +135,14 @@ body {
 
         canvas {
             min-width: 480px;
+        }
+    }
+
+    @media screen and (max-width: 1550px) {    
+        pre#output {
+            font-size: 200%;
+            max-width: 100vw;
+            overflow-x: scroll;
         }
     }
 }
