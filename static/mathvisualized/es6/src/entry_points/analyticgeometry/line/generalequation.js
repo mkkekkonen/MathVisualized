@@ -1,10 +1,10 @@
 import Konva from 'konva';
 import { getDefaultKonvaStage } from '../../../util/util';
 import { addAxesToLayer } from '../../../renderers/axis2DRenderer';
-import { plotPointSlopeLine } from '../../../renderers/lineRenderer';
-import { updatePointSlopeLine } from '../../../updaters/lineUpdater';
-import { worldWidth } from '../../../constants/global';
 import Line2D, { lineTypes } from '../../../math/geometry/line2D';
+import { updateGeneralFormLine } from '../../../updaters/lineUpdater';
+import { plotGeneralFormLine } from '../../../renderers/lineRenderer';
+import { worldWidth } from '../../../constants/global';
 
 const stage = getDefaultKonvaStage();
 const layer = new Konva.Layer();
@@ -14,15 +14,16 @@ addAxesToLayer(layer);
 layer.draw();
 
 const line = new Line2D({
-    slope: 0,
-    point: null,
-    type: lineTypes.POINT_SLOPE,
+    a: 0,
+    b: 0,
+    c: 0,
+    type: lineTypes.GENERAL,
 });
 
 document.getElementById('drawButton').addEventListener('click', () => {
     layer.removeChildren();
     addAxesToLayer(layer);
-    updatePointSlopeLine(line);
-    plotPointSlopeLine({ line, layer, worldWidth });
+    updateGeneralFormLine(line);
+    plotGeneralFormLine({ line, layer, worldWidth });
     layer.draw();
 });
