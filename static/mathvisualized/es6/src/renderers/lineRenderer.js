@@ -9,6 +9,8 @@ const pointSlope = ({ x, point, slope }) => (slope * (x - point.x)) + point.y;
 
 const generalEquation = ({ x, a, b, c }) => ((-a * x) - c) / b;
 
+const slopeIntercept = ({ x, slope, yIntercept }) => (slope * x) + yIntercept;
+
 const plotVerticalLine = ({ line, layer }) => {
     const { point } = line;
     const { x } = point;
@@ -31,10 +33,12 @@ const plotVerticalLine = ({ line, layer }) => {
 };
 
 const calculateY = ({ line, x }) => {
-    const { a, b, c, slope, point } = line;
+    const { a, b, c, slope, yIntercept, point } = line;
     switch (line.type) {
     case lineTypes.POINT_SLOPE:
         return pointSlope({ x, point, slope });
+    case lineTypes.SLOPE_INTERCEPT:
+        return slopeIntercept({ x, slope, yIntercept });
     case lineTypes.GENERAL:
     default:
         return generalEquation({ x, a, b, c });
@@ -42,7 +46,6 @@ const calculateY = ({ line, x }) => {
 }
 
 const plotLine = ({ line, layer, worldWidth }) => {
-    const { a, b, c, slope, point } = line;
     const startXCoordinate = -(worldWidth / 2);
     const endXCoordinate = worldWidth / 2;
     const konvaLines = [];
@@ -90,6 +93,19 @@ const plotGeneralFormLine = ({ line, layer, worldWidth }) => {
     } else {
         plotLine({ line, layer, worldWidth });
     }
-}
+};
 
-export { plotPointSlopeLine, plotGeneralFormLine };
+const plotSlopeInterceptLine = ({ line, layer, worldWidth }) => {
+    const { slope } = line;
+    if (slope === 0) {
+        // do nothing
+    } else {
+        plotLine({ line, layer, worldWidth });
+    }
+};
+
+export {
+    plotPointSlopeLine,
+    plotGeneralFormLine,
+    plotSlopeInterceptLine,
+};

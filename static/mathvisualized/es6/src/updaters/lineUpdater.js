@@ -10,6 +10,13 @@ const updateGeneralFormLine = (line) => {
     line.c = c;
 };
 
+const updateSlopeInterceptLine = (line) => {
+    const slope = parseFloatById('k');
+    const yIntercept = parseFloatById('b');
+    line.slope = slope;
+    line.yIntercept = yIntercept;
+};
+
 const updatePointSlopeLine = (line) => {
     if (document.getElementById('vertical').checked) {
         line.slope = NaN;
@@ -21,4 +28,4 @@ const updatePointSlopeLine = (line) => {
     line.point = new Vector3({ x: pointX, y: pointY, z: 0 });
 };
 
-export { updateGeneralFormLine, updatePointSlopeLine };
+export { updateGeneralFormLine, updateSlopeInterceptLine, updatePointSlopeLine };
