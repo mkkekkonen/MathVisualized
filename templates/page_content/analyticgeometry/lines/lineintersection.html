@@ -1,0 +1,41 @@
+<p>
+    On this page line intersection is tested. There's
+    one fixed line, and you can input the parameters of
+    the other line manually.
+</p>
+
+<p>
+    Line intersection is calculated by solving a
+    system of equations containing both lines'
+    equations. The result is the <i>x</i> and 
+    <i>y</i> coordinates of the point where the lines
+    intersect.
+</p>
+
+<p>
+    Most often two lines have one point in common. There 
+    are two special cases: if the lines are parallel,
+    they have no common points, and if the lines are
+    equal, they have an infinite number of points in
+    common.
+</p>
+
+<p>
+    The fields for the parameters are below.
+</p>
+
+<div class="input-container">
+    <label>
+        <input id="k" type="number" step="0.1" />
+        <strong>k (slope)</strong>
+    </label>
+</div>
+
+<div class="input-container">
+    <label>
+        <input id="b" type="number" step="0.1" />
+        <strong>b (y-intercept)</strong>
+    </label>
+</div>
+
+<button id="drawButton">Draw line</button>
