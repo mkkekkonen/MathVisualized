@@ -1,6 +1,7 @@
 import Konva from 'konva';
 import { defaultViewportMatrix } from '../util/util';
-import { black, red, strokeWidth, dotRadius } from '../constants/global';
+import { black, strokeWidth } from '../constants/global';
+import { addDotToLayer } from '../renderers/dotRenderer';
 
 const addLineSegmentToLayer = ({ line, layer, strokeColor }) => {
     if (line.startPoint && line.endPoint) {
@@ -18,18 +19,8 @@ const addLineSegmentToLayer = ({ line, layer, strokeColor }) => {
 
 const addLineSegmentMidpointToLayer = ({ line, layer }) => {
     if (line.startPoint && line.endPoint) {
-        const midpointVector = line.midpoint;
-        const screenMidpoint = defaultViewportMatrix.multiplyVector(midpointVector);
-        const { x, y } = screenMidpoint;
-        const midpointCircle = new Konva.Circle({
-            x,
-            y,
-            radius: dotRadius,
-            fill: red,
-        });
-        layer.add(midpointCircle);
+        addDotToLayer({ point: line.midpoint, layer });
     }
 };
 
 export { addLineSegmentToLayer, addLineSegmentMidpointToLayer };
-

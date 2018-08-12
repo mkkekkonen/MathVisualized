@@ -1,0 +1,42 @@
+<p>
+    The distance between a line and a point is calculated here.
+    The distance is the shortest one, and a line drawn along
+    it is perpendicular to the original line.
+</p>
+
+<p>
+    The distance is calculated with the formula below. The 
+    equation is of the form <span id="equation"></span>, the
+    point is <span id="point"></span>, and the distance is
+    <span id="d"></span>.
+</p>
+
+<p id="formula"></p>
+
+<p>
+    There's a fixed line on the stage. You can set the point
+    by clicking on the canvas.
+</p>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        katex.render(
+            'd',
+            document.getElementById('d'),
+        );
+        katex.render(
+            'ax + by + c = 0',
+            document.getElementById('equation'),
+        );
+        katex.render(
+            '(x_0, y_0)',
+            document.getElementById('point'),
+        );
+        katex.render(
+            'd = \\frac{|ax_0 + by_0 + c|}{\\sqrt{a^2 + b^2}}',
+            document.getElementById('formula'),
+        );
+    });
+</script>

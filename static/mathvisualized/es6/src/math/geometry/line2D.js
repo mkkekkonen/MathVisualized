@@ -59,6 +59,10 @@ class Line2D {
         return new this({ slope, point, type: lineTypes.POINT_SLOPE });
     }
 
+    static calculatePerpendicularSlope(slope) {
+        return -(1 / slope);
+    }
+
     intersects(line) {
         return solveSystem(this, line);
     }
@@ -76,6 +80,37 @@ class Line2D {
             );
             return Math.atan(tangent);
         }
+        }
+    }
+
+    calculateSlope() {
+        if ((this.type === lineTypes.POINT_SLOPE
+                || this.type === lineTypes.SLOPE_INTERCEPT)
+                && this.slope) {
+            return this.slope;
+        } else if (this.type === lineTypes.GENERAL) {
+            return -(this.a / this.b);
+        }
+        return null;
+    }
+
+    convertToYIntercept() {
+        switch (this.type) {
+        case lineTypes.GENERAL: {
+            return Line2D.slopeIntercept({
+                slope: -(this.a / this.b),
+                yIntercept: -(this.c / this.b),
+            });
+        }
+        case lineTypes.POINT_SLOPE: {
+            return Line2D.slopeIntercept({
+                slope: this.slope,
+                yIntercept: -(this.slope * this.point.x) + this.point.y,
+            });
+        }
+        case lineTypes.SLOPE_INTERCEPT:
+        default:
+            return this;
         }
     }
 }
