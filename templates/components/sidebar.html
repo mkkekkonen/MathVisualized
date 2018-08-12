@@ -7,12 +7,14 @@
         {% for category in lists.category_list %}
             <h3>{{ category.name }}</h3>
             {% for subcategory in lists.subcategory_list %}
-                <h5>{{ subcategory.name }}</h5>
-                {% for page in lists.page_list %}
-                    {% if page.subcategory == subcategory %}
-                        <div class="sidebar-list-item">- <a href="/mathvisualized/pages/{{ page.url_title }}">{{ page.title }}</a></div>
-                    {% endif %}
-                {% endfor %}
+                {% if subcategory.category == category %}
+                    <h5>{{ subcategory.name }}</h5>
+                    {% for page in lists.page_list %}
+                        {% if page.subcategory == subcategory %}
+                            <div class="sidebar-list-item">- <a href="/mathvisualized/pages/{{ page.url_title }}">{{ page.title }}</a></div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             {% endfor %}
         {% endfor %}
         <a href="/mathvisualized/sources"><h3>Sources</h3></a>
