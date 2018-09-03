@@ -8,23 +8,66 @@ $sidebar-color: rgba(125, 125, 125, 0.5);
 body {
     background-image: url('../img/hip-square.png');
     font-family: 'Roboto', Arial, sans-serif;
+    font-size: 20px;
 }
 
 .sidebar {
     background-color: $sidebar-color;
-    float: left;
-    height: 100vh;
-    width: 20vw;
+    box-sizing: border-box;
+    padding: 1em;
+
+    .button-container {
+
+        button {
+            background-color: #555;
+            border: none;
+            color: #ccc;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 200%;
+        }
+    }
+
+    @media screen and (min-width: 1550px) {
+        float: left;
+        height: 100vh;
+        width: 20vw;
+
+        .button-container {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 1550px) {
+        .button-container {
+            display: block;
+        }
+
+        .transition {
+            transition: all 0.5s ease;
+        }
+
+        .sidebar-content {
+            height: 33vh;
+            overflow-y: scroll;
+        }
+
+        .hidden {
+            height: 0;
+        }
+    }
 
     h3 {
-        font-size: 25px;
-        font-weight: 100;
+        font-size: 150%;
+        font-weight: 300;
         padding: 5px;
     }
 
     h5 {
-        font-size: 20px;
-        font-weight: 100;
+        font-size: 125%;
+        font-weight: 300;
         margin-left: 10px;
         padding: 5px;
     }
@@ -35,22 +78,26 @@ body {
 }
 
 .container {
-    box-sizing: border-box;
-    float: left;
-    padding: 50px;
-    width: 38vw; 
+    padding: 2.5em;
+    @media screen and (min-width: 1550px) {    
+        box-sizing: border-box;
+        float: left;
+        width: 38vw;
+    }
 }
 
 .scroll-container {
-    float: right;
-    height: 100vh;
-    overflow-y: scroll;
+    @media screen and (min-width: 1550px) {
+        float: right;
+        height: 100vh;
+        overflow-y: scroll;   
+    }
 }
 
 .content {
 
     h1 {
-        font-size: 50px;
+        font-size: 250%;
         font-weight: 100;
         margin-bottom: 20px;
     }
@@ -62,14 +109,48 @@ body {
     input {
         border-radius: 5px;
         padding: 10px;
-    }
 
-    .input-container {
-        margin-bottom: 10px;
+        @media screen and (max-width: 1000px) {
+            font-size: 200%;
+
+            &[type="checkbox"] {
+                min-width: 1em;
+                min-height: 1em;
+            }
+        }
     }
 
     fieldset {
         padding: 15px;
+
+        @media screen and (max-width: 1000px) {
+            font-size: 200%;
+
+            input[type="radio"] {
+                min-width: 0.5em;
+                min-height: 0.5em;
+            }
+        }
+    }
+
+    button {
+        @media screen and (max-width: 1000px) {
+            font-size: 200%;
+        }
+    }
+
+    .input-container {
+        margin-bottom: 10px;
+
+        label {
+            white-space: nowrap;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        .katex {
+            font-size: 200%;
+        }
     }
 }
 
@@ -82,6 +163,14 @@ body {
 
         canvas {
             min-width: 480px;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {    
+        pre#output {
+            font-size: 200%;
+            max-width: 100vw;
+            overflow-x: scroll;
         }
     }
 }
