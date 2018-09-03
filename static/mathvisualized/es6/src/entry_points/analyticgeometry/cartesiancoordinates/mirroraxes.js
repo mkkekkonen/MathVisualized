@@ -1,9 +1,9 @@
 import Konva from 'konva';
 import { getDefaultKonvaStage } from '../../../util/util';
 import { addAxesToLayer } from '../../../renderers/axis2DRenderer';
-import { addLineToLayer } from '../../../renderers/lineRenderer';
-import { updateLineOnClick } from '../../../updaters/lineUpdater';
-import Line2D from '../../../math/geometry/line2D';
+import { addLineSegmentToLayer } from '../../../renderers/lineSegmentRenderer';
+import { updateLineOnClick } from '../../../updaters/lineSegmentUpdater';
+import LineSegment2D from '../../../math/geometry/lineSegment2D';
 import { darkGrey } from '../../../constants/global';
 import Vector3 from '../../../math/vector';
 
@@ -14,7 +14,7 @@ stage.add(layer);
 addAxesToLayer(layer);
 layer.draw();
 
-const line = new Line2D({ startPoint: null, endPoint: null });
+const line = new LineSegment2D({ startPoint: null, endPoint: null });
 
 const getCheckedInputId = () => {
     return Array.from(document.getElementsByName('mirroracross'))
@@ -47,8 +47,8 @@ const drawMirroredLine = ({ startPoint, endPoint }) => {
         mirroredEndPoint = new Vector3({ x: -endX, y: -endY, z: 0 });
     }
 
-    addLineToLayer({
-        line: new Line2D({
+    addLineSegmentToLayer({
+        line: new LineSegment2D({
             startPoint: mirroredStartPoint,
             endPoint: mirroredEndPoint,
         }),
@@ -60,7 +60,7 @@ const drawMirroredLine = ({ startPoint, endPoint }) => {
 const drawLines = () => {
     layer.removeChildren();
     addAxesToLayer(layer);
-    addLineToLayer({ line, layer });
+    addLineSegmentToLayer({ line, layer });
     drawMirroredLine(line);
     layer.draw();
 };

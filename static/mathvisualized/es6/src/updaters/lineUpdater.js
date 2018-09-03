@@ -1,22 +1,15 @@
+import { parseFloatById } from '../util/util';
 import Vector3 from '../math/vector';
-import { defaultReverseViewportMatrix } from '../util/util';
-import { addLineToLayer } from '../renderers/lineRenderer';
 
-const updateLineOnClick = ({
-    line, stage,
-}) => {
-    line.startPoint = line.endPoint;
-
-    const location = stage.getPointerPosition();
-    const locationVector = new Vector3({
-        x: location.x,
-        y: location.y,
-        z: 0,
-    });
-
-    const worldVector = defaultReverseViewportMatrix.multiplyVector(locationVector);
-
-    line.endPoint = worldVector;
+const updatePointSlopeLine = (line) => {
+    if (document.getElementById('vertical').checked) {
+        line.slope = NaN;
+    } else {
+        line.slope = parseFloatById('slope');
+    }
+    const pointX = parseFloatById('x');
+    const pointY = parseFloatById('y');
+    line.point = new Vector3({ x: pointX, y: pointY, z: 0 });
 };
 
-export { updateLineOnClick };
+export { updatePointSlopeLine };
