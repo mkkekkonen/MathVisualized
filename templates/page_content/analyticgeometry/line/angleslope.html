@@ -1,0 +1,59 @@
+<p>
+    You can calculate the slope and directional angle of a line on this
+    page. The line can be defined by clicking on the canvas.
+</p>
+
+<p>
+    The directional angle <span id="alpha"></span> of a line is its angle relative to the
+    positive X axis.
+</p>
+
+<p>If the slope is positive: <span id="positive"></span></p>
+
+<p>If the slope is negative: <span id="negative"></span></p>
+
+<p>If the line is horizontal: <span id="horizontal"></span></p>
+
+<p>If the line is vertical: <span id="vertical"></span></p>
+
+<p>
+    The relationship between the slope and the directional angle can be
+    expressed with the following formulas:
+</p>
+
+<p id="slope"></p>
+
+<p id="angle"></p>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        katex.render(
+            '\\alpha',
+            document.getElementById('alpha'),
+        );
+        katex.render(
+            '0^{\\circ} < \\alpha < 90^{\\circ}',
+            document.getElementById('positive'),
+        );
+        katex.render(
+            '-90^{\\circ} < \\alpha < 0^{\\circ}',
+            document.getElementById('negative'),
+        );
+        katex.render(
+            '\\alpha = 0^{\\circ}',
+            document.getElementById('horizontal'),
+        );
+        katex.render(
+            '\\alpha = 90^{\\circ}',
+            document.getElementById('vertical'),
+        );
+        katex.render(
+            'k = tan(\\alpha), \\alpha \\neq 90^{\\circ}',
+            document.getElementById('slope'),
+        );
+        katex.render(
+            '\\alpha = arctan(k)',
+            document.getElementById('angle'),
+        );
+    });
+</script>

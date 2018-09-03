@@ -1,4 +1,4 @@
-import { round } from '../util';
+import { round, radiansToDegrees } from '../util';
 import Vector3 from '../vector';
 
 class Line2D {
@@ -32,8 +32,17 @@ class Line2D {
         return 0;
     }
 
+    get directionalAngle() {
+        if (Number.isNaN(this.slope)) {
+            return 90;
+        }
+
+        const angleInRadians = Math.atan(this.slope);
+        return radiansToDegrees(angleInRadians);
+    }
+
     toString(args = {}) {
-        const { midpoint, slope } = args;
+        const { midpoint, slope, directionalAngle } = args;
 
         let str = 'Line:\n';
         str += `- startPoint: ${this.startPoint.toString()}\n`;
@@ -45,7 +54,11 @@ class Line2D {
         }
 
         if (slope) {
-            str += `- slope: ${round(this.slope)}`;
+            str += `- slope: ${round(this.slope)}\n`;
+        }
+
+        if (directionalAngle) {
+            str += `- directional angle: ${round(this.directionalAngle)}\n`;
         }
 
         return str;
