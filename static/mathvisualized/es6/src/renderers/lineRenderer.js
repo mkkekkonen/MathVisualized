@@ -11,7 +11,7 @@ const generalEquation = ({ x, a, b, c }) => ((-a * x) - c) / b;
 
 const slopeIntercept = ({ x, slope, yIntercept }) => (slope * x) + yIntercept;
 
-const plotVerticalLine = ({ line, layer }) => {
+const plotVerticalLine = ({ line, layer, strokeColor }) => {
     const { point } = line;
     const { x } = point;
     const startYCoordinate = -(worldHeight / 2);
@@ -26,7 +26,7 @@ const plotVerticalLine = ({ line, layer }) => {
     const konvaLine = new Konva.Line({
         points: [segmentStartPoint.x, segmentStartPoint.y,
             segmentEndPoint.x, segmentEndPoint.y],
-        stroke: black,
+        stroke: strokeColor || black,
         strokeWidth,
     });
     layer.add(konvaLine);
@@ -43,9 +43,9 @@ const calculateY = ({ line, x }) => {
     default:
         return generalEquation({ x, a, b, c });
     }
-}
+};
 
-const plotLine = ({ line, layer, worldWidth }) => {
+const plotLine = ({ line, layer, worldWidth, strokeColor }) => {
     const startXCoordinate = -(worldWidth / 2);
     const endXCoordinate = worldWidth / 2;
     const konvaLines = [];
@@ -65,7 +65,7 @@ const plotLine = ({ line, layer, worldWidth }) => {
         const konvaLine = new Konva.Line({
             points: [segmentStartPoint.x, segmentStartPoint.y,
                 segmentEndPoint.x, segmentEndPoint.y],
-            stroke: black,
+            stroke: strokeColor || black,
             strokeWidth,
         });
         konvaLines.push(konvaLine);
@@ -84,23 +84,23 @@ const plotPointSlopeLine = ({ line, layer, worldWidth }) => {
     }
 };
 
-const plotGeneralFormLine = ({ line, layer, worldWidth }) => {
+const plotGeneralFormLine = ({ line, layer, worldWidth, strokeColor }) => {
     const { a, b } = line;
     if (a === 0 && b === 0) {
         // do nothing
     } else if (b === 0) {
-        plotVerticalLine({ line, layer });
+        plotVerticalLine({ line, layer, strokeColor });
     } else {
-        plotLine({ line, layer, worldWidth });
+        plotLine({ line, layer, worldWidth, strokeColor });
     }
 };
 
-const plotSlopeInterceptLine = ({ line, layer, worldWidth }) => {
+const plotSlopeInterceptLine = ({ line, layer, worldWidth, strokeColor }) => {
     const { slope } = line;
     if (slope === 0) {
-        // do nothing
+        plotVerticalLine({ line, layer, strokeColor });
     } else {
-        plotLine({ line, layer, worldWidth });
+        plotLine({ line, layer, worldWidth, strokeColor });
     }
 };
 
