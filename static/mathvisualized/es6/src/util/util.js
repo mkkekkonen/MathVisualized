@@ -1,6 +1,11 @@
 import Konva from 'konva';
 import createViewportMatrix, { createReverseViewportMatrix } from '../math/viewport';
-import { movieWidth, movieHeight, worldWidth, worldHeight } from '../constants/global';
+import {
+    movieWidth,
+    movieHeight,
+    worldWidth,
+    worldHeight,
+} from '../constants/global';
 
 const defaultViewportMatrix = createViewportMatrix({
     worldWidth,
