@@ -36,6 +36,7 @@ body {
     @media screen and (min-width: 1550px) {
         float: left;
         height: 100vh;
+        overflow-y: scroll;
         width: 20vw;
 
         .button-container {
