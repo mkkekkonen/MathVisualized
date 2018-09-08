@@ -49,7 +49,7 @@ gulp.task('konva', function() {
                 category,
                 subcategory,
             );
-            var bundle = browserify([sourceFilePath])
+            var bundle = browserify([sourceFilePath], { debug: true })
                 .transform("babelify", {presets: ["@babel/preset-env"]})
                 .bundle();
             bundle.pipe(source(filenameWithoutExtension + '.js'))

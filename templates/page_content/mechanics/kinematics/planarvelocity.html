@@ -4,9 +4,16 @@
 </p>
 
 <p>
-    You can drag the rectangle around, and the
-    different velocity-related variables are calculated
-    and outputted.
+    You can move the "ship" by pressing the arrow keys.
+</p>
+
+<p>
+    On this page, acceleration and speed are treated as
+    scalars. The acceleration delta is added to the speed
+    of the ship each frame. The velocity is calculated by
+    multiplying the ship's direction unit vector with its speed. 
+    The position delta is then calculated from velocity and time
+    and added to the previous position.
 </p>
 
 <h3>The Position Vector</h3>
@@ -22,6 +29,8 @@
     The <span id="i"></span> and <span id="j"></span>
     vectors are unit vectors pointing to the directions
     of the <i>x</i> and <i>y</i> axes, respectively.
+    The <i>x</i> and <i>y</i> values are scalars representing
+    the object's distance from the origin.
 </p>
 
 <h3>Average Velocity</h3>
@@ -62,6 +71,14 @@
 
 <p id="averageAcceleration"></p>
 
+<h3>Velocity and Acceleration at a Given Moment</h3>
+
+<p>
+    Velocity and acceleration at a given moment can be
+    calculated with the preceding formulas, given 
+    <span id="delta_t_2"></span> is small.
+</p>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         katex.render(
@@ -83,6 +100,10 @@
         katex.render(
             '\\Delta t',
             document.getElementById('delta_t'),
+        );
+        katex.render(
+            '\\Delta t',
+            document.getElementById('delta_t_2'),
         );
         katex.render(
             '|\\bar v| = \\sqrt{v_x^2 + v_y^2}',

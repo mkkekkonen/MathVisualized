@@ -1,14 +1,33 @@
 import { lineTypes } from './geometry/line2D';
-import { round } from './util';
+import { round, degreesToRadians } from './util';
 
 class Vector3 {
-    constructor({
-        x, y, z, w,
-    }) {
+    constructor(args = { x: 0, y: 0, z: 0 }) {
+        const { x, y, z, w } = args;
         this.x = x;
         this.y = y;
         this.z = z;
         this.w = w || 1;
+    }
+
+    get length() {
+        return Math.sqrt((this.x * this.x) + (this.y * this.y));
+    }
+
+    add(vector) {
+        return new Vector3({
+            x: this.x + vector.x,
+            y: this.y + vector.y,
+            z: this.z + vector.z,
+        });
+    }
+
+    multiply(scalar) {
+        return new Vector3({
+            x: this.x * scalar,
+            y: this.y * scalar,
+            z: this.z * scalar,
+        });
     }
 
     distanceFrom(vector) {
@@ -27,6 +46,14 @@ class Vector3 {
 
     toString() {
         return `Vector3 ~ (${round(this.x)}, ${round(this.y)}, ${round(this.z)})`;
+    }
+
+    static polarCoordinates({ r, theta }) {
+        return new Vector3({
+            x: r * Math.cos(degreesToRadians(theta)),
+            y: r * Math.sin(degreesToRadians(theta)),
+            z: 0,
+        });
     }
 }
 
