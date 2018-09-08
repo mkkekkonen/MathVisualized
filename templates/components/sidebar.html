@@ -3,6 +3,7 @@
         <button id="menu-button">Menu</button>
     </div>
     <div id="sidebarContent" class="sidebar-content transition hidden">
+        <a href="/mathvisualized"><h3>Home Page</h3></a>
         {% for category in lists.category_list %}
             <h3>{{ category.name }}</h3>
             {% for subcategory in lists.subcategory_list %}

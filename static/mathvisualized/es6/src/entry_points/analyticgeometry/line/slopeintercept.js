@@ -1,10 +1,10 @@
 import Konva from 'konva';
 import { getDefaultKonvaStage } from '../../../util/util';
 import { addAxesToLayer } from '../../../renderers/axis2DRenderer';
-import { plotPointSlopeLine } from '../../../renderers/lineRenderer';
-import { updatePointSlopeLine } from '../../../updaters/lineUpdater';
+import Line2D from '../../../math/geometry/line2D';
+import { updateSlopeInterceptLine } from '../../../updaters/lineUpdater';
+import { plotSlopeInterceptLine } from '../../../renderers/lineRenderer';
 import { worldWidth } from '../../../constants/global';
-import Line2D, { lineTypes } from '../../../math/geometry/line2D';
 
 const stage = getDefaultKonvaStage();
 const layer = new Konva.Layer();
@@ -13,16 +13,15 @@ stage.add(layer);
 addAxesToLayer(layer);
 layer.draw();
 
-const line = new Line2D({
+const line = Line2D.slopeIntercept({
     slope: 0,
-    point: null,
-    type: lineTypes.POINT_SLOPE,
+    yIntercept: 0,
 });
 
 document.getElementById('drawButton').addEventListener('click', () => {
     layer.removeChildren();
     addAxesToLayer(layer);
-    updatePointSlopeLine(line);
-    plotPointSlopeLine({ line, layer, worldWidth });
+    updateSlopeInterceptLine(line);
+    plotSlopeInterceptLine({ line, layer, worldWidth });
     layer.draw();
 });

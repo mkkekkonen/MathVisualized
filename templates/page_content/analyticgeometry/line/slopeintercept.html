@@ -1,0 +1,42 @@
+<p>
+    An equation in the slope-intercept form is plotted 
+    here. The equation in slope-intercept form is:
+</p>
+
+<p id="formula"></p>
+
+<p>
+    where <i>x</i> and <i>y</i> represent the 
+    coordinates of the line, <i>k</i> is the slope
+    and <i>b</i> is the y-intercept i.e. the <i>y</i>
+    coordinate of the point on the <i>y</i> axis.
+</p>
+
+<p>
+    You can input the constants below.
+</p>
+
+<div class="input-container">
+    <label>
+        <input id="k" type="number" step="0.1" />
+        <strong>k (slope)</strong>
+    </label>
+</div>
+
+<div class="input-container">
+    <label>
+        <input id="b" type="number" step="0.1" />
+        <strong>b (y-intercept)</strong>
+    </label>
+</div>
+
+<button id="drawButton">Draw line</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        katex.render(
+            'y = kx + b',
+            document.getElementById('formula'),
+        );
+    });
+</script>

@@ -26,7 +26,10 @@ body {
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 200%;
+
+            @media screen and (max-width: 1000px) {
+                font-size: 200%;
+            }
         }
     }
 
