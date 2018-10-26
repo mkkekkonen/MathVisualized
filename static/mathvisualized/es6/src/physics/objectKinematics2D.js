@@ -9,6 +9,7 @@ class ObjectKinematics2D {
     constructor(position) {
         this.position = position;
         this.directionPolarCoordinates = { r: RADIUS, theta: 0 };
+        this.velocity = new Vector3({ x: 0, y: 0, z: 0 });
         this.speed = 0;
         this.accelerationScalar = 0;
     }
@@ -20,11 +21,11 @@ class ObjectKinematics2D {
     update(time, turnLeft, turnRight) {
         const direction = Vector3.polarCoordinates(this.directionPolarCoordinates);
 
-        this.speed += this.accelerationScalar * time;
+        const velocityDelta = direction.multiply(this.accelerationScalar * time);
+        this.velocity = this.velocity.add(velocityDelta);
 
-        const velocity = direction.multiply(this.speed);
         const positionDelta = positionDeltaFromVelocity({
-            velocity,
+            velocity: this.velocity,
             time,
         });
         this.position = this.position.add(

@@ -23,7 +23,7 @@ gulp.task('bonsai', function() {
             var filenameWithoutExtension = filename.split('.')[0];
             var sourceFilePath = './src/bonsai_movies/' + filenameWithoutExtension + '.js';
             var bundle = browserify([sourceFilePath])
-                .transform("babelify", {presets: ["@babel/preset-env"]})
+                .transform("babelify", {presets: ["babel-preset-env"]})
                 .bundle();
             bundle.pipe(source(filenameWithoutExtension + '.js'))
                 .pipe(gulp.dest('../js/bonsai_movie_bundles/'));

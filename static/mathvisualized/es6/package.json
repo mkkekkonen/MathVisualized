@@ -18,6 +18,7 @@
     "@babel/core": "^7.0.0-beta.53",
     "@babel/preset-env": "^7.0.0-beta.53",
     "babel-cli": "^6.26.0",
+    "babel-preset-env": "^2.0.0-alpha.20",
     "babelify": "^9.0.0",
     "browserify": "^16.2.2",
     "eslint": "^4.19.1",
