@@ -1,0 +1,103 @@
+<p>
+    This page considers constant acceleration and the
+    resulting position on a 2D plane.
+</p>
+
+<p>
+    Acceleration is constant when it does not change
+    over time. The velocity changes, however.
+</p>
+
+<p>
+    The formulas for calculating velocity over time
+    are presented below. We use the <i>x</i> and
+    <i>y</i> components of the initial velocity and
+    the acceleration in calculating the velocity.
+</p>
+
+<p id="velocityX"></p>
+
+<p id="velocityY"></p>
+
+<p>
+    The positions are calculated in a similar manner.
+</p>
+
+<p id="positionX"></p>
+
+<p id="positionY"></p>
+
+<p>Here you can input data and start the simulation:</p>
+
+<div class="input-container">
+    <label>
+        <input id="v0x" type="number" />
+        <strong id="v0x_label"></strong>
+    </label>
+</div>
+
+<div class="input-container">
+    <label>
+        <input id="v0y" type="number" />
+        <strong id="v0y_label"></strong>
+    </label>
+</div>
+
+<div class="input-container">
+    <label>
+        <input id="ax" type="number" />
+        <strong id="ax_label"></strong>
+    </label>
+</div>
+
+<div class="input-container">
+    <label>
+        <input id="ay" type="number" />
+        <strong id="ay_label"></strong>
+    </label>
+</div>
+
+<div>
+    <button id="startButton">Start</button>
+</div>
+
+<div>
+    <button id="resetButton">Reset</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        katex.render(
+            'v_x = v_{0x} + a_x t',
+            document.getElementById('velocityX'),
+        );
+        katex.render(
+            'v_y = v_{0y} + a_y t',
+            document.getElementById('velocityY'),
+        );
+        katex.render(
+            'x = v_{0x} t + \\frac{1}{2} a_x t^2',
+            document.getElementById('positionX'),
+        );
+        katex.render(
+            'y = v_{0y} t + \\frac{1}{2} a_y t^2',
+            document.getElementById('positionY'),
+        );
+        katex.render(
+            'v_{0x}',
+            document.getElementById('v0x_label'),
+        );
+        katex.render(
+            'v_{0y}',
+            document.getElementById('v0y_label'),
+        );
+        katex.render(
+            'a_x',
+            document.getElementById('ax_label'),
+        );
+        katex.render(
+            'a_y',
+            document.getElementById('ay_label'),
+        );
+    });
+</script>
