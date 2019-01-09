@@ -18,7 +18,7 @@ class ObjectKinematics2D {
         return this.directionPolarCoordinates.theta;
     }
 
-    update(time, turnLeft, turnRight) {
+    update(time, { turnLeft, turnRight }) {
         const direction = Vector3.polarCoordinates(this.directionPolarCoordinates);
 
         const velocityDelta = direction.multiply(this.accelerationScalar * time);
@@ -56,7 +56,7 @@ class ObjectKinematics2D {
         }
         this.directionPolarCoordinates = directionPolarCoordinates;
     }
-    
+
     toString() {
         let str = 'ObjectKinematics2D:\n';
         str += `~ acceleration: ${round(this.accelerationScalar)} units/s^2\n`;

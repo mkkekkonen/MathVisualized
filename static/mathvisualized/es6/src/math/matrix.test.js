@@ -64,32 +64,20 @@ test('multiplies correctly with vectors', () => {
     ]);
     const v = new Vector3({ x: 2, y: 5, z: 5 });
     const u = A.multiplyVector(v);
-    expect(u).toEqual({
-        x: 72,
-        y: 43,
-        z: 18,
-        w: 75,
-    });
+    const expectedResult = new Vector3({ x: 72, y: 43, z: 18 });
+    expect(u).toEqual(expectedResult);
 });
 
 test('scales vector correctly', () => {
     const v = new Vector3({ x: 1, y: 2, z: 3 });
     const u = Matrix4x4.scale({ x: 2, y: 10, z: 100 }).multiplyVector(v);
-    expect(u).toEqual({
-        x: 2,
-        y: 20,
-        z: 300,
-        w: 1,
-    });
+    const expectedResult = new Vector3({ x: 2, y: 20, z: 300 });
+    expect(u).toEqual(expectedResult);
 });
 
 test('translates vector correctly', () => {
     const v = new Vector3({ x: 1, y: 2, z: 3 });
     const u = Matrix4x4.translate({ x: -3, y: 2, z: 1 }).multiplyVector(v);
-    expect(u).toEqual({
-        x: -2,
-        y: 4,
-        z: 4,
-        w: 1,
-    });
+    const expectedResult = new Vector3({ x: -2, y: 4, z: 4 });
+    expect(u).toEqual(expectedResult);
 });

@@ -42,7 +42,7 @@ initializeKeyboardInput(
 );
 
 const update = (time) => {
-    ship.kinematics.update(time, turningLeft, turningRight);
+    ship.kinematics.update(time, { turnLeft: turningLeft, turnRight: turningRight });
     ship.updateLocation(ship.kinematics.position);
     ship.updateRotation(ship.kinematics.rotation);
     document.getElementById('output').innerHTML = ship.kinematics.toString();

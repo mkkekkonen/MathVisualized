@@ -4,9 +4,9 @@ import { round, degreesToRadians } from './util';
 class Vector3 {
     constructor(args = { x: 0, y: 0, z: 0 }) {
         const { x, y, z, w } = args;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.x = x || 0;
+        this.y = y || 0;
+        this.z = z || 0;
         this.w = w || 1;
     }
 
