@@ -1,3 +1,4 @@
+import AbstractKinematics2D from './abstractKinematics2D';
 import Vector3 from '../math/vector';
 import { positionDeltaFromVelocity } from '../physics/equations';
 import { round } from '../math/util';
@@ -5,8 +6,9 @@ import { round } from '../math/util';
 const RADIUS = 1;
 const TURN_DELTA = 20; // degrees per second
 
-class ObjectKinematics2D {
+class ObjectKinematics2D extends AbstractKinematics2D {
     constructor(position) {
+        super();
         this.position = position;
         this.directionPolarCoordinates = { r: RADIUS, theta: 0 };
         this.velocity = new Vector3({ x: 0, y: 0, z: 0 });

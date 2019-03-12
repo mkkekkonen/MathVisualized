@@ -1,15 +1,13 @@
-import Konva from 'konva';
-import { getDefaultKonvaStage } from '../../../util/util';
-import { addAxesToLayer } from '../../../renderers/axis2DRenderer';
+import * as util from '../../../util/util';
+import * as axis2DRenderer from '../../../renderers/axis2DRenderer';
 import Line2D from '../../../math/geometry/line2D';
-import { updateSlopeInterceptLine } from '../../../updaters/lineUpdater';
-import { plotSlopeInterceptLine } from '../../../renderers/lineRenderer';
+import * as lineUpdater from '../../../updaters/lineUpdater';
+import * as lineRenderer from '../../../renderers/lineRenderer';
 import { worldWidth, darkGrey } from '../../../constants/global';
 import { radiansToDegrees, round } from '../../../math/util';
 
-const stage = getDefaultKonvaStage();
-const layer = new Konva.Layer();
-stage.add(layer);
+const { layer } = util.getDefaultKonvaStage2();
+axis2DRenderer.addAxesToLayer(layer);
 
 const fixedLine = Line2D.slopeIntercept({
     slope: 1.5,
@@ -22,7 +20,7 @@ const line = Line2D.slopeIntercept({
 });
 
 const plotFixedLine = () => {
-    plotSlopeInterceptLine({
+    lineRenderer.plotSlopeInterceptLine({
         line: fixedLine,
         layer,
         worldWidth,
@@ -30,16 +28,15 @@ const plotFixedLine = () => {
     });
 };
 
-addAxesToLayer(layer);
 plotFixedLine();
 layer.draw();
 
 document.getElementById('drawButton').addEventListener('click', () => {
     layer.removeChildren();
-    addAxesToLayer(layer);
-    updateSlopeInterceptLine(line);
+    axis2DRenderer.addAxesToLayer(layer);
+    lineUpdater.updateSlopeInterceptLine(line);
     plotFixedLine();
-    plotSlopeInterceptLine({ line, layer, worldWidth });
+    lineRenderer.plotSlopeInterceptLine({ line, layer, worldWidth });
 
     const angle = round(radiansToDegrees(line.angleBetween(fixedLine)));
     document.getElementById('output').innerHTML = `Angle between lines: ${angle} degrees`;

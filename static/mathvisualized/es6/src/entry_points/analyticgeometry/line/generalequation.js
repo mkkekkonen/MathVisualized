@@ -1,16 +1,12 @@
-import Konva from 'konva';
-import { getDefaultKonvaStage } from '../../../util/util';
-import { addAxesToLayer } from '../../../renderers/axis2DRenderer';
+import * as util from '../../../util/util';
+import * as axis2DRenderer from '../../../renderers/axis2DRenderer';
 import Line2D, { lineTypes } from '../../../math/geometry/line2D';
-import { updateGeneralFormLine } from '../../../updaters/lineUpdater';
-import { plotGeneralFormLine } from '../../../renderers/lineRenderer';
+import * as lineUpdater from '../../../updaters/lineUpdater';
+import * as lineRenderer from '../../../renderers/lineRenderer';
 import { worldWidth } from '../../../constants/global';
 
-const stage = getDefaultKonvaStage();
-const layer = new Konva.Layer();
-stage.add(layer);
-
-addAxesToLayer(layer);
+const { layer } = util.getDefaultKonvaStage2();
+axis2DRenderer.addAxesToLayer(layer);
 layer.draw();
 
 const line = new Line2D({
@@ -22,8 +18,8 @@ const line = new Line2D({
 
 document.getElementById('drawButton').addEventListener('click', () => {
     layer.removeChildren();
-    addAxesToLayer(layer);
-    updateGeneralFormLine(line);
-    plotGeneralFormLine({ line, layer, worldWidth });
+    axis2DRenderer.addAxesToLayer(layer);
+    lineUpdater.updateGeneralFormLine(line);
+    lineRenderer.plotGeneralFormLine({ line, layer, worldWidth });
     layer.draw();
 });

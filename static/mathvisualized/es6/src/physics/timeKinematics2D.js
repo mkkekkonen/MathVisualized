@@ -1,8 +1,10 @@
+import AbstractKinematics2D from './abstractKinematics2D';
 import Vector3 from '../math/vector';
 import { round } from '../math/util';
 
-class TimeKinematics2D {
+class TimeKinematics2D extends AbstractKinematics2D {
     constructor({ initialPosition, initialVelocity, acceleration }) {
+        super();
         this.reset({ initialPosition, initialVelocity, acceleration });
     }
 

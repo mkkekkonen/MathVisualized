@@ -1,0 +1,64 @@
+<p>
+    Diagonally oriented throwing motion is demonstrated
+    here. You can start the simulation by clicking on
+    the canvas. The initial velocity vector is displayed as a 
+    line segment.
+</p>
+
+<p>
+    The initial components of the throwing velocity are
+    presented below:
+</p>
+
+<p id="v0x"></p>
+
+<p id="v0y"></p>
+
+<p>
+    The formulas for calculating the velocity of the 
+    thrown object at a given time are below:
+</p>
+
+<p id="vx"></p>
+
+<p id="vy"></p>
+
+<p>
+    The coordinates of the thrown object at a given time
+    can be calculated with the following formulas:
+</p>
+
+<p id="x"></p>
+
+<p id="y"></p>
+
+<button id="resetButton">Reset</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        katex.render(
+            'v_{0x} = v_{0} cos \\alpha_{0}',
+            document.getElementById('v0x'),
+        );
+        katex.render(
+            'v_{0y} = v_{0} sin \\alpha_{0}',
+            document.getElementById('v0y'),
+        );
+        katex.render(
+            'v_x = v_{0x}',
+            document.getElementById('vx'),
+        );
+        katex.render(
+            'v_y = v_{0y} - gt',
+            document.getElementById('vy'),
+        );
+        katex.render(
+            'x = v_{0x} t',
+            document.getElementById('x'),
+        );
+        katex.render(
+            'y = v_{0y} t - \\frac{1}{2} gt^2',
+            document.getElementById('y'),
+        );
+    });
+</script>

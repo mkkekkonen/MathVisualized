@@ -1,16 +1,14 @@
-import Vector3 from '../math/vector';
-import { defaultReverseViewportMatrix } from '../util/util';
+import * as inputManager from '../input/inputManager';
 
-const updateLineOnClick = ({ line, stage }) => {
+const updateLine = ({ line, stage }) => {
     line.startPoint = line.endPoint;
-
-    const pointerPosition = stage.getPointerPosition();
-    const { x, y } = pointerPosition;
-    const positionVector = new Vector3({ x, y, z: 0 });
-
-    const worldVector = defaultReverseViewportMatrix.multiplyVector(positionVector);
-
+    const worldVector = inputManager.getMouseWorldPosition({ stage });
     line.endPoint = worldVector;
 };
 
-export { updateLineOnClick };
+const updateLineFixedStart = ({ line, stage }) => {
+    const worldVector = inputManager.getMouseWorldPosition({ stage });
+    line.endPoint = worldVector;
+};
+
+export { updateLine, updateLineFixedStart };

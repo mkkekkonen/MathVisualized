@@ -1,19 +1,17 @@
-import Konva from 'konva';
-import { getDefaultKonvaStage } from '../../../util/util';
-import { addAxesToLayer } from '../../../renderers/axis2DRenderer';
+import * as util from '../../../util/util';
+import * as axis2DRenderer from '../../../renderers/axis2DRenderer';
 import Line2D from '../../../math/geometry/line2D';
 import LineSegment2D from '../../../math/geometry/lineSegment2D';
 import Vector3 from '../../../math/vector';
 import { round } from '../../../math/util';
-import { updatePointOnClick } from '../../../updaters/pointUpdater';
-import { plotGeneralFormLine } from '../../../renderers/lineRenderer';
-import { addLineSegmentToLayer } from '../../../renderers/lineSegmentRenderer';
-import { addDotToLayer } from '../../../renderers/dotRenderer';
+import * as pointUpdater from '../../../updaters/pointUpdater';
+import * as lineRenderer from '../../../renderers/lineRenderer';
+import * as lineSegmentRenderer from '../../../renderers/lineSegmentRenderer';
+import * as dotRenderer from '../../../renderers/dotRenderer';
 import { worldWidth, darkGrey } from '../../../constants/global';
 
-const stage = getDefaultKonvaStage();
-const layer = new Konva.Layer();
-stage.add(layer);
+const { stage, layer } = util.getDefaultKonvaStage2();
+axis2DRenderer.addAxesToLayer(layer);
 
 const fixedLineGeneralForm = Line2D.general({ a: 1, b: 2, c: 3 });
 const fixedLineYIntercept = fixedLineGeneralForm.convertToYIntercept();
@@ -24,24 +22,23 @@ const point = new Vector3({ x: 0, y: 0, z: 0 });
 const distanceLine = Line2D.pointSlope({ point, slope: fixedLineSlope });
 
 const plotFixedLine = () => {
-    plotGeneralFormLine({
+    lineRenderer.plotGeneralFormLine({
         line: fixedLineGeneralForm,
         layer,
         worldWidth,
     });
 };
 
-addAxesToLayer(layer);
 plotFixedLine();
 layer.draw();
 
 const clickTapHandler = () => {
     layer.removeChildren();
 
-    addAxesToLayer(layer);
+    axis2DRenderer.addAxesToLayer(layer);
     plotFixedLine();
 
-    updatePointOnClick({ point, stage });
+    pointUpdater.updatePointOnClick({ point, stage });
     distanceLine.point = point;
     const distanceLineYIntercept = distanceLine.convertToYIntercept();
     const commonPoint = distanceLineYIntercept.intersects(fixedLineYIntercept);
@@ -50,10 +47,14 @@ const clickTapHandler = () => {
         startPoint: point,
         endPoint: commonPoint,
     });
-    addLineSegmentToLayer({ line: distanceLineSegment, layer, strokeColor: darkGrey });
+    lineSegmentRenderer.addLineSegmentToLayer({
+        line: distanceLineSegment,
+        layer,
+        strokeColor: darkGrey,
+    });
 
-    addDotToLayer({ point, layer });
-    addDotToLayer({ point: commonPoint, layer });
+    dotRenderer.addDotToLayer({ point, layer });
+    dotRenderer.addDotToLayer({ point: commonPoint, layer });
 
     document.getElementById('output').innerHTML = `Distance: ${round(point.distanceFromLine(fixedLineGeneralForm))}`;
 

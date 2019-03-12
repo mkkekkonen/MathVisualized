@@ -1,14 +1,10 @@
-import Konva from 'konva';
 import * as util from '../../../util/util';
 import * as axis2DRenderer from '../../../renderers/axis2DRenderer';
 import * as dotRenderer from '../../../renderers/dotRenderer';
 import Vector3 from '../../../math/vector';
 import TimeKinematics2D from '../../../physics/timeKinematics2D';
 
-const stage = util.getDefaultKonvaStage();
-const layer = new Konva.Layer();
-stage.add(layer);
-
+const { layer } = util.getDefaultKonvaStage2();
 axis2DRenderer.addAxesToLayer(layer);
 layer.draw();
 
