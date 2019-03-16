@@ -48,6 +48,12 @@ class Vector3 {
         return `Vector3 ~ (${round(this.x)}, ${round(this.y)}, ${round(this.z)})`;
     }
 
+    equals(vector) {
+        return (this.x === vector.x)
+            && (this.y === vector.y)
+            && (this.z === vector.z);
+    }
+
     static polarCoordinates({ r, theta }) {
         return new Vector3({
             x: r * Math.cos(degreesToRadians(theta)),

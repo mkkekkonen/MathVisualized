@@ -7,6 +7,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Jest tests",
+            "program": "${workspaceFolder}/static/mathvisualized/es6/node_modules/.bin/jest",
+            "cwd": "${workspaceFolder}/static/mathvisualized/es6"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}/static/mathvisualized/es6/gulpfile.js"
         }

@@ -1,26 +1,22 @@
-import Konva from 'konva';
-import { getDefaultKonvaStage } from '../../../util/util';
-import { addAxesToLayer } from '../../../renderers/axis2DRenderer';
-import { addLineSegmentToLayer } from '../../../renderers/lineSegmentRenderer';
-import { updateLineOnClick } from '../../../updaters/lineSegmentUpdater';
+import * as util from '../../../util/util';
+import * as axis2DRenderer from '../../../renderers/axis2DRenderer';
+import * as lineSegmentRenderer from '../../../renderers/lineSegmentRenderer';
+import * as lineSegmentUpdater from '../../../updaters/lineSegmentUpdater';
 import LineSegment2D from '../../../math/geometry/lineSegment2D';
 
-const stage = getDefaultKonvaStage();
-const layer = new Konva.Layer();
-stage.add(layer);
-
-addAxesToLayer(layer);
+const { stage, layer } = util.getDefaultKonvaStage2();
+axis2DRenderer.addAxesToLayer(layer);
 layer.draw();
 
 const line = new LineSegment2D({ startPoint: null, endPoint: null });
 
 const clickTapHandler = () => {
     layer.removeChildren();
-    addAxesToLayer(layer);
-    updateLineOnClick({ line, stage });
+    axis2DRenderer.addAxesToLayer(layer);
+    lineSegmentUpdater.updateLine({ line, stage });
     if (line.startPoint && line.endPoint) {
         document.getElementById('output').innerHTML = line.toString({ slope: true, directionalAngle: true });
-        addLineSegmentToLayer({ line, layer });
+        lineSegmentRenderer.addLineSegmentToLayer({ line, layer });
         layer.draw();
     }
 };

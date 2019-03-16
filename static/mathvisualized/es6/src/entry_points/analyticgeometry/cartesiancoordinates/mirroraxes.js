@@ -1,17 +1,13 @@
-import Konva from 'konva';
-import { getDefaultKonvaStage } from '../../../util/util';
-import { addAxesToLayer } from '../../../renderers/axis2DRenderer';
-import { addLineSegmentToLayer } from '../../../renderers/lineSegmentRenderer';
-import { updateLineOnClick } from '../../../updaters/lineSegmentUpdater';
+import * as util from '../../../util/util';
+import * as axis2DRenderer from '../../../renderers/axis2DRenderer';
+import * as lineSegmentRenderer from '../../../renderers/lineSegmentRenderer';
+import * as lineSegmentUpdater from '../../../updaters/lineSegmentUpdater';
 import LineSegment2D from '../../../math/geometry/lineSegment2D';
 import { darkGrey } from '../../../constants/global';
 import Vector3 from '../../../math/vector';
 
-const stage = getDefaultKonvaStage();
-const layer = new Konva.Layer();
-stage.add(layer);
-
-addAxesToLayer(layer);
+const { stage, layer } = util.getDefaultKonvaStage2();
+axis2DRenderer.addAxesToLayer(layer);
 layer.draw();
 
 const line = new LineSegment2D({ startPoint: null, endPoint: null });
@@ -47,7 +43,7 @@ const drawMirroredLine = ({ startPoint, endPoint }) => {
         mirroredEndPoint = new Vector3({ x: -endX, y: -endY, z: 0 });
     }
 
-    addLineSegmentToLayer({
+    lineSegmentRenderer.addLineSegmentToLayer({
         line: new LineSegment2D({
             startPoint: mirroredStartPoint,
             endPoint: mirroredEndPoint,
@@ -59,14 +55,14 @@ const drawMirroredLine = ({ startPoint, endPoint }) => {
 
 const drawLines = () => {
     layer.removeChildren();
-    addAxesToLayer(layer);
-    addLineSegmentToLayer({ line, layer });
+    axis2DRenderer.addAxesToLayer(layer);
+    lineSegmentRenderer.addLineSegmentToLayer({ line, layer });
     drawMirroredLine(line);
     layer.draw();
 };
 
 const clickTapHandler = () => {
-    updateLineOnClick({ line, stage });
+    lineSegmentUpdater.updateLine({ line, stage });
     if (line.startPoint && line.endPoint) {
         document.getElementById('output').innerHTML = line.toString();
         drawLines();

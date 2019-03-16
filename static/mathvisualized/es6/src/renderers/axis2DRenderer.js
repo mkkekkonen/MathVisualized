@@ -1,5 +1,5 @@
 import Konva from 'konva';
-import { defaultViewportMatrix } from '../util/util';
+import * as util from '../util/util';
 import { black, red, strokeWidth } from '../constants/global';
 import Vector3 from '../math/vector';
 
@@ -8,10 +8,10 @@ const xAxisEndPoint = new Vector3({ x: 5, y: 0, z: 0 });
 const yAxisStartPoint = new Vector3({ x: 0, y: -5, z: 0 });
 const yAxisEndPoint = new Vector3({ x: 0, y: 5, z: 0 });
 
-const xAxisScreenStartPoint = defaultViewportMatrix.multiplyVector(xAxisStartPoint);
-const xAxisScreenEndPoint = defaultViewportMatrix.multiplyVector(xAxisEndPoint);
-const yAxisScreenStartPoint = defaultViewportMatrix.multiplyVector(yAxisStartPoint);
-const yAxisScreenEndPoint = defaultViewportMatrix.multiplyVector(yAxisEndPoint);
+const xAxisScreenStartPoint = util.defaultViewportMatrix.multiplyVector(xAxisStartPoint);
+const xAxisScreenEndPoint = util.defaultViewportMatrix.multiplyVector(xAxisEndPoint);
+const yAxisScreenStartPoint = util.defaultViewportMatrix.multiplyVector(yAxisStartPoint);
+const yAxisScreenEndPoint = util.defaultViewportMatrix.multiplyVector(yAxisEndPoint);
 
 const addAxesToLayer = (layer) => {
     const xAxis = new Konva.Line({

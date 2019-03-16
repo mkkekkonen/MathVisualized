@@ -1,10 +1,10 @@
 import Konva from 'konva';
-import { getDefaultKonvaStage } from '../../../util/util';
+import * as util from '../../../util/util';
 import Ship from '../../../objects/ship';
 import ObjectKinematics2D from '../../../physics/objectKinematics2D';
-import { initializeKeyboardInput } from '../../../input/inputManager';
+import * as inputManager from '../../../input/inputManager';
 
-const stage = getDefaultKonvaStage();
+const stage = util.getDefaultKonvaStage();
 const layer = new Konva.Layer();
 stage.add(layer);
 
@@ -15,7 +15,7 @@ layer.add(ship.polygon);
 let turningLeft = false;
 let turningRight = false;
 
-initializeKeyboardInput(
+inputManager.initializeKeyboardInput(
     (event) => {
         if (event.code === 'ArrowUp') {
             ship.kinematics.accelerationScalar = 1;
