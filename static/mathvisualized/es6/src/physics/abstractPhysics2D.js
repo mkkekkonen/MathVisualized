@@ -1,9 +1,9 @@
 /* eslint-disable class-methods-use-this */
 
-class AbstractKinematics2D {
+class AbstractPhysics2D {
     update() {
         throw new Error('The method "update" must be implemented!');
     }
 }
 
-export default AbstractKinematics2D;
+export default AbstractPhysics2D;

@@ -9,18 +9,19 @@ const layer = new Konva.Layer();
 stage.add(layer);
 
 const ship = new Ship();
-ship.kinematics = new ObjectKinematics2D(ship.location);
+ship.kinematics = new ObjectKinematics2D(ship.location, { steering: true });
 layer.add(ship.polygon);
 
+let accelerationScalar = 0;
 let turningLeft = false;
 let turningRight = false;
 
 inputManager.initializeKeyboardInput(
     (event) => {
         if (event.code === 'ArrowUp') {
-            ship.kinematics.accelerationScalar = 1;
+            accelerationScalar = 1;
         } else if (event.code === 'ArrowDown') {
-            ship.kinematics.accelerationScalar = -1;
+            accelerationScalar = -1;
         }
         if (event.code === 'ArrowLeft') {
             turningLeft = true;
@@ -30,7 +31,7 @@ inputManager.initializeKeyboardInput(
     },
     (event) => {
         if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
-            ship.kinematics.accelerationScalar = 0;
+            accelerationScalar = 0;
         }
         if (event.code === 'ArrowLeft') {
             turningLeft = false;
@@ -42,9 +43,17 @@ inputManager.initializeKeyboardInput(
 );
 
 const update = (time) => {
-    ship.kinematics.update(time, { turnLeft: turningLeft, turnRight: turningRight });
+    ship.kinematics.update(
+        time,
+        null,
+        {
+            accelerationScalar,
+            turnLeft: turningLeft,
+            turnRight: turningRight,
+        },
+    );
     ship.updateLocation(ship.kinematics.position);
-    ship.updateRotation(ship.kinematics.rotation);
+    ship.updateRotation(ship.kinematics.steering.rotation);
     document.getElementById('output').innerHTML = ship.kinematics.toString();
 };
 

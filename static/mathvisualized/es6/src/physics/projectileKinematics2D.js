@@ -1,8 +1,8 @@
-import AbstractKinematics2D from './abstractKinematics2D';
+import AbstractPhysics2D from './abstractPhysics2D';
 import Vector3 from '../math/vector';
 import { accelerationGravity } from '../constants/global';
 
-class ProjectileKinematics2D extends AbstractKinematics2D {
+class ProjectileKinematics2D extends AbstractPhysics2D {
     constructor({ initialPosition, initialVelocity }) {
         super();
         this.reset({ initialPosition, initialVelocity });

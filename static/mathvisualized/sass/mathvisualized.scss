@@ -11,6 +11,10 @@ body {
     font-size: 20px;
 }
 
+.katex {
+    font-size: 100%;
+}
+
 a:link, a:visited {
     color: #1b3c72;
     text-decoration: none;
@@ -36,6 +40,10 @@ a:link, a:visited {
                 font-size: 100%;
             }
         }
+    }
+
+    .pad {
+        height: 50px;
     }
 
     @media screen and (min-width: 1550px) {

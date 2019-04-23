@@ -22,11 +22,27 @@ class Vector3 {
         });
     }
 
+    subtract(vector) {
+        return new Vector3({
+            x: this.x - vector.x,
+            y: this.y - vector.y,
+            z: this.z - vector.z,
+        });
+    }
+
     multiply(scalar) {
         return new Vector3({
             x: this.x * scalar,
             y: this.y * scalar,
             z: this.z * scalar,
+        });
+    }
+
+    divide(scalar) {
+        return new Vector3({
+            x: this.x / scalar,
+            y: this.y / scalar,
+            z: this.z / scalar,
         });
     }
 

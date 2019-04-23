@@ -1,0 +1,54 @@
+<p>Newton's second law can be stated as:</p>
+
+<p id="secondlaw"></p>
+
+<p>
+    This means that the force <span id="F">F</span>
+    gives an object with the mass <span id="m"></span> an 
+    acceleration <span id="a"></span>.
+</p>
+
+<p>
+    You can "draw" force vectors by clicking and dragging
+    on the canvas. The force vectors are visualized as line
+    segments.
+</p>
+
+<div class="input-container">
+    <label>
+        <input id="mass" type="number" value="10" />
+        <strong>
+            <span id="massLabel"></span>
+            (kg)
+        </strong>
+    </label>
+</div>
+
+<div>
+    <button id="resetButton">Reset</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        katex.render(
+            '\\bar F = m \\bar a',
+            document.getElementById('secondlaw'),
+        );
+        katex.render(
+            '\\bar F',
+            document.getElementById('F'),
+        );
+        katex.render(
+            'm',
+            document.getElementById('m'),
+        );
+        katex.render(
+            '\\bar a',
+            document.getElementById('a'),
+        );
+        katex.render(
+            'm',
+            document.getElementById('massLabel'),
+        );
+    })
+</script>

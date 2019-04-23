@@ -1,30 +1,48 @@
-import AbstractKinematics2D from './abstractKinematics2D';
+import AbstractPhysics2D from './abstractPhysics2D';
 import Vector3 from '../math/vector';
+import ObjectSteering2D from '../input/objectSteering2D';
 import { positionDeltaFromVelocity } from '../physics/equations';
 import { round } from '../math/util';
 
 const RADIUS = 1;
-const TURN_DELTA = 20; // degrees per second
 
-class ObjectKinematics2D extends AbstractKinematics2D {
-    constructor(position) {
+class ObjectKinematics2D extends AbstractPhysics2D {
+    constructor(position, { steering } = {}) {
         super();
         this.position = position;
         this.directionPolarCoordinates = { r: RADIUS, theta: 0 };
-        this.velocity = new Vector3({ x: 0, y: 0, z: 0 });
+        this.velocity = new Vector3();
         this.speed = 0;
-        this.accelerationScalar = 0;
+        this.acceleration = new Vector3();
+
+        if (steering) {
+            this.steering = new ObjectSteering2D();
+            this.accelerationScalar = 0;
+        }
     }
 
     get rotation() {
         return this.directionPolarCoordinates.theta;
     }
 
-    update(time, { turnLeft, turnRight }) {
-        const direction = Vector3.polarCoordinates(this.directionPolarCoordinates);
+    get accelerationToString() {
+        if (this.steering) {
+            return `${round(this.accelerationScalar)} units/s^2`;
+        }
+        return `${round(this.acceleration.length)} units/s^2`;
+    }
 
-        const velocityDelta = direction.multiply(this.accelerationScalar * time);
+    update(time, acceleration = new Vector3(), { accelerationScalar, turnLeft, turnRight }) {
+        if (this.steering && accelerationScalar === undefined) {
+            throw new Error('Scalar acceleration required with steering!');
+        }
+
+        const velocityDelta = this.steering
+            ? this.steering.calculateVelocityDelta(time, accelerationScalar)
+            : acceleration.multiply(time);
+
         this.velocity = this.velocity.add(velocityDelta);
+        this.speed = this.velocity.length;
 
         const positionDelta = positionDeltaFromVelocity({
             velocity: this.velocity,
@@ -34,34 +52,15 @@ class ObjectKinematics2D extends AbstractKinematics2D {
             positionDelta,
         );
 
-        if (turnLeft) {
-            this.turnLeft(time);
-        } else if (turnRight) {
-            this.turnRight(time);
+        if (this.steering) {
+            this.steering.update(time, { turnLeft, turnRight });
+            this.accelerationScalar = accelerationScalar;
         }
-    }
-
-    turnLeft(time) {
-        const directionPolarCoordinates = { ...this.directionPolarCoordinates };
-        directionPolarCoordinates.theta += TURN_DELTA * time;
-        if (directionPolarCoordinates.theta >= 360) {
-            directionPolarCoordinates.theta -= 360;
-        }
-        this.directionPolarCoordinates = directionPolarCoordinates;
-    }
-
-    turnRight(time) {
-        const directionPolarCoordinates = { ...this.directionPolarCoordinates };
-        directionPolarCoordinates.theta -= TURN_DELTA * time;
-        if (directionPolarCoordinates.theta < 0) {
-            directionPolarCoordinates.theta += 360;
-        }
-        this.directionPolarCoordinates = directionPolarCoordinates;
     }
 
     toString() {
         let str = 'ObjectKinematics2D:\n';
-        str += `~ acceleration: ${round(this.accelerationScalar)} units/s^2\n`;
+        str += `~ acceleration: ${this.accelerationToString}\n`;
         str += `~ velocity: ${round(this.speed)} units/s\n`;
         str += `~ direction polar coords angle: ${round(this.directionPolarCoordinates.theta)}\n`;
         str += `~ position: (${round(this.position.x)}, ${round(this.position.y)})\n`;
