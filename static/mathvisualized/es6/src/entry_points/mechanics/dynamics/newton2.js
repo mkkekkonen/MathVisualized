@@ -31,7 +31,8 @@ const getForceVector = () => {
 };
 
 const update = (time) => {
-    const force = getForceVector();
+    const forceVector = getForceVector();
+    const force = forceVector && forceVector.multiply(100);
 
     if (forceStartPoint && forceEndPoint) {
         forceLineSegment.startPoint = forceStartPoint;
