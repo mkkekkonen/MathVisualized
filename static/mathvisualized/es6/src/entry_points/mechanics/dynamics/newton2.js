@@ -4,6 +4,7 @@ import * as util from '../../../util/util';
 import * as inputManager from '../../../input/inputManager';
 import * as lineSegmentRenderer from '../../../renderers/lineSegmentRenderer';
 import * as dotRenderer from '../../../renderers/dotRenderer';
+import * as constants from '../../../constants/global';
 import ObjectDynamics2D from '../../../physics/objectDynamics2D';
 import Vector3 from '../../../math/vector';
 
@@ -15,7 +16,13 @@ let forceStartPoint = null;
 let forceEndPoint = null;
 
 const dot = {
-    dynamics: new ObjectDynamics2D({ massKg: 1 }),
+    dynamics: new ObjectDynamics2D({
+        massKg: 1,
+        radius: 0,
+        constrainToBorders: true,
+        worldWidth: constants.worldWidth,
+        worldHeight: constants.worldHeight,
+    }),
 };
 
 const forceLineSegment = new LineSegment2D({
