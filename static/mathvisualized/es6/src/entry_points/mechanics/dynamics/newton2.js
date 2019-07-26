@@ -14,16 +14,7 @@ stage.add(layer);
 
 let forceStartPoint = null;
 let forceEndPoint = null;
-
-const dot = {
-    dynamics: new ObjectDynamics2D({
-        massKg: 1,
-        radius: 0,
-        constrainToBorders: true,
-        worldWidth: constants.worldWidth,
-        worldHeight: constants.worldHeight,
-    }),
-};
+let dot = null;
 
 const forceLineSegment = new LineSegment2D({
     startPoint: new Vector3(),
@@ -74,6 +65,21 @@ const render = () => {
     layer.draw();
 };
 
+const reset = () => {
+    const inputValue = document.getElementById('mass').value;
+    const massKg = Number(inputValue) || 10;
+
+    dot = {
+        dynamics: new ObjectDynamics2D({
+            massKg,
+            radius: 0,
+            constrainToBorders: true,
+            worldWidth: constants.worldWidth,
+            worldHeight: constants.worldHeight,
+        }),
+    };
+};
+
 let previousTime = new Date().getTime();
 
 stage.on('mousedown', () => {
@@ -83,6 +89,10 @@ stage.on('mousedown', () => {
 stage.on('mouseup', () => {
     forceEndPoint = inputManager.getMouseWorldPosition({ stage });
 });
+
+reset();
+
+document.getElementById('resetButton').addEventListener('click', reset);
 
 window.setInterval(() => {
     const currentTime = new Date().getTime();
