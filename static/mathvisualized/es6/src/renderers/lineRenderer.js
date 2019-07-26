@@ -97,7 +97,7 @@ const plotGeneralFormLine = ({ line, layer, worldWidth, strokeColor }) => {
 
 const plotSlopeInterceptLine = ({ line, layer, worldWidth, strokeColor }) => {
     const { slope } = line;
-    if (slope === 0) {
+    if (!slope && slope !== 0) {
         plotVerticalLine({ line, layer, strokeColor });
     } else {
         plotLine({ line, layer, worldWidth, strokeColor });
