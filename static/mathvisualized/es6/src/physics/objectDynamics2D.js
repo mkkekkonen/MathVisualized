@@ -60,7 +60,6 @@ class ObjectDynamics2D extends AbstractPhysics2D {
         return sides[crossedSideKey];
     }
 
-    // TODO: calculate offset after bounce
     bounce() {
         let crossedSide;
         let loopGuard = 0;

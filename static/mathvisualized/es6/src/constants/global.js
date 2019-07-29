@@ -5,6 +5,8 @@ export const worldHeight = 10;
 export const movieWidth = 480;
 export const movieHeight = 480;
 
+export const defaultScalingFactor = 48;
+
 export const black = '#000';
 export const darkGrey = '#999';
 export const red = '#f00';
