@@ -86,7 +86,15 @@ stage.on('mousedown', () => {
     forceStartPoint = inputManager.getMouseWorldPosition({ stage });
 });
 
+stage.on('touchstart', () => {
+    forceStartPoint = inputManager.getMouseWorldPosition({ stage });
+});
+
 stage.on('mouseup', () => {
+    forceEndPoint = inputManager.getMouseWorldPosition({ stage });
+});
+
+stage.on('touchend', () => {
     forceEndPoint = inputManager.getMouseWorldPosition({ stage });
 });
 
