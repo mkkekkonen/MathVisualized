@@ -107,23 +107,26 @@ describe('hasCrossedBorder', () => {
 describe('getBouncedPosition', () => {
     const worldWidth = 10;
     const worldHeight = 10;
+    const radius = 1;
 
     it('has crossed - top', () => {
         const initialPosition = new Vector3({ x: 0, y: 6, z: 0 });
-        const expectedPosition = new Vector3({ x: 0, y: 4, z: 0 });
+        const expectedPosition = new Vector3({ x: 0, y: 3, z: 0 });
         expect(getBouncedPosition({
             side: sides.TOP,
             position: initialPosition,
+            radius,
             worldWidth,
             worldHeight,
         })).toEqual(expectedPosition);
     });
 
     it('has not crossed - top', () => {
-        const initialAndExpectedPosition = new Vector3({ x: 0, y: 3, z: 0 });
+        const initialAndExpectedPosition = new Vector3({ x: 0, y: 2, z: 0 });
         expect(getBouncedPosition({
             side: sides.TOP,
             position: initialAndExpectedPosition,
+            radius,
             worldWidth,
             worldHeight,
         })).toEqual(initialAndExpectedPosition);
@@ -131,20 +134,22 @@ describe('getBouncedPosition', () => {
 
     it('has crossed - right', () => {
         const initialPosition = new Vector3({ x: 6, y: 0, z: 0 });
-        const expectedPosition = new Vector3({ x: 4, y: 0, z: 0 });
+        const expectedPosition = new Vector3({ x: 3, y: 0, z: 0 });
         expect(getBouncedPosition({
             side: sides.RIGHT,
             position: initialPosition,
+            radius,
             worldWidth,
             worldHeight,
         })).toEqual(expectedPosition);
     });
 
     it('has not crossed - right', () => {
-        const initialAndExpectedPosition = new Vector3({ x: 3, y: 0, z: 0 });
+        const initialAndExpectedPosition = new Vector3({ x: 2, y: 0, z: 0 });
         expect(getBouncedPosition({
             side: sides.RIGHT,
             position: initialAndExpectedPosition,
+            radius,
             worldWidth,
             worldHeight,
         })).toEqual(initialAndExpectedPosition);
@@ -152,20 +157,22 @@ describe('getBouncedPosition', () => {
 
     it('has crossed - bottom', () => {
         const initialPosition = new Vector3({ x: 0, y: -6, z: 0 });
-        const expectedPosition = new Vector3({ x: 0, y: -4, z: 0 });
+        const expectedPosition = new Vector3({ x: 0, y: -3, z: 0 });
         expect(getBouncedPosition({
             side: sides.BOTTOM,
             position: initialPosition,
+            radius,
             worldWidth,
             worldHeight,
         })).toEqual(expectedPosition);
     });
 
     it('has not crossed - bottom', () => {
-        const initialAndExpectedPosition = new Vector3({ x: 0, y: -3, z: 0 });
+        const initialAndExpectedPosition = new Vector3({ x: 0, y: -2, z: 0 });
         expect(getBouncedPosition({
             side: sides.BOTTOM,
             position: initialAndExpectedPosition,
+            radius,
             worldWidth,
             worldHeight,
         })).toEqual(initialAndExpectedPosition);
@@ -173,20 +180,22 @@ describe('getBouncedPosition', () => {
 
     it('has crossed - left', () => {
         const initialPosition = new Vector3({ x: -6, y: 0, z: 0 });
-        const expectedPosition = new Vector3({ x: -4, y: 0, z: 0 });
+        const expectedPosition = new Vector3({ x: -3, y: 0, z: 0 });
         expect(getBouncedPosition({
             side: sides.LEFT,
             position: initialPosition,
+            radius,
             worldWidth,
             worldHeight,
         })).toEqual(expectedPosition);
     });
 
     it('has not crossed - left', () => {
-        const initialAndExpectedPosition = new Vector3({ x: -3, y: 0, z: 0 });
+        const initialAndExpectedPosition = new Vector3({ x: -2, y: 0, z: 0 });
         expect(getBouncedPosition({
             side: sides.LEFT,
             position: initialAndExpectedPosition,
+            radius,
             worldWidth,
             worldHeight,
         })).toEqual(initialAndExpectedPosition);

@@ -48,80 +48,150 @@ export const parseFloatById = (id) => {
     return valueString.length > 0 ? parseFloat(valueString) : 0;
 };
 
+const circleHasCrossedBorder = ({ side, position, radius, worldWidth, worldHeight }) => {
+    switch (side) {
+        case sides.TOP: {
+            if ((position.y + radius) > (worldHeight / 2)) {
+                return true;
+            }
+            return false;
+        }
+        case sides.RIGHT: {
+            if ((position.x + radius) > (worldWidth / 2)) {
+                return true;
+            }
+            return false;
+        }
+        case sides.BOTTOM: {
+            if ((position.y - radius) < -(worldHeight / 2)) {
+                return true;
+            }
+            return false;
+        }
+        case sides.LEFT: {
+            if ((position.x - radius) < -(worldWidth / 2)) {
+                return true;
+            }
+            return false;
+        }
+        default:
+            return false;
+    }
+};
+
+const rectHasCrossedBorder = ({ side, position, rect, worldWidth, worldHeight }) => {
+    switch (side) {
+        case sides.TOP: {
+            if (rect.top > (worldHeight / 2)) {
+                return true;
+            }
+            return false;
+        }
+        case sides.RIGHT: {
+            if (rect.right > (worldWidth / 2)) {
+                return true;
+            }
+            return false;
+        }
+        case sides.BOTTOM: {
+            if (rect.bottom < -(worldHeight / 2)) {
+                return true;
+            }
+            return false;
+        }
+        case sides.LEFT: {
+            if (rect.left < -(worldWidth / 2)) {
+                return true;
+            }
+            return false;
+        }
+        default:
+            return false;
+    }
+};
+
 export const hasCrossedBorder = ({
     side,
     position,
     radius,
+    rect,
     worldWidth,
     worldHeight,
 }) => {
-    switch (side) {
-    case sides.TOP: {
-        if ((position.y + radius) > (worldHeight / 2)) {
-            return true;
-        }
-        return false;
+    if (radius !== undefined && radius !== null) {
+        return circleHasCrossedBorder({ side, position, radius, worldWidth, worldHeight });
+    } else if (rect) {
+        return rectHasCrossedBorder({ side, position, rect, worldWidth, worldHeight });
     }
-    case sides.RIGHT: {
-        if ((position.x + radius) > (worldWidth / 2)) {
-            return true;
-        }
-        return false;
-    }
-    case sides.BOTTOM: {
-        if ((position.y - radius) < -(worldHeight / 2)) {
-            return true;
-        }
-        return false;
-    }
-    case sides.LEFT: {
-        if ((position.x - radius) < -(worldWidth / 2)) {
-            return true;
-        }
-        return false;
-    }
-    default:
-        return false;
-    }
+
+    return false;
 };
 
-export const getBouncedPosition = ({ side, position, worldWidth, worldHeight }) => {
+const getOffsets = ({ radius, rect }) => {
+    if ((radius !== undefined) && (radius !== null)) {
+        const offset = radius / 2;
+        return {
+            offsetX: offset,
+            offsetY: offset,
+        };
+    } else if (rect) {
+        return {
+            offsetX: rect.width / 2,
+            offsetY: rect.height / 2,
+        };
+    }
+
+    return {
+        offsetX: 0,
+        offsetY: 0,
+    };
+};
+
+export const getBouncedPosition = ({ side, position, radius, rect, worldWidth, worldHeight }) => {
     const newPosition = new Vector3({
         x: position.x,
         y: position.y,
         z: position.z,
     });
 
+    const { offsetX, offsetY } = getOffsets({ radius, rect });
+
     switch (side) {
     case sides.TOP: {
-        if (newPosition.y < (worldHeight / 2)) {
+        const objectTop = newPosition.y + offsetY;
+        if (objectTop < (worldHeight / 2)) {
             return newPosition;
         }
-        const distanceCrossed = newPosition.y - (worldHeight / 2);
+        const distanceCrossed = objectTop - (worldHeight / 2);
         newPosition.y -= distanceCrossed * 2;
+        newPosition.y = Math.min(worldHeight / 2, newPosition.y);
         return newPosition;
     }
     case sides.RIGHT: {
-        if (newPosition.x < (worldWidth / 2)) {
+        const objectRight = newPosition.x + offsetX;
+        if (objectRight < (worldWidth / 2)) {
             return newPosition;
         }
-        const distanceCrossed = newPosition.x - (worldWidth / 2);
+        const distanceCrossed = objectRight - (worldWidth / 2);
         newPosition.x -= distanceCrossed * 2;
+        newPosition.x = Math.min(worldWidth / 2, newPosition.x);
         return newPosition;
     }
     case sides.BOTTOM: {
-        if (newPosition.y > -(worldHeight / 2)) {
+        const objectBottom = newPosition.y - offsetY;
+        if (objectBottom > -(worldHeight / 2)) {
             return newPosition;
         }
-        const distanceCrossed = -(worldHeight / 2) - newPosition.y;
+        const distanceCrossed = -(worldHeight / 2) - objectBottom;
         newPosition.y += distanceCrossed * 2;
         return newPosition;
     }
     case sides.LEFT: {
-        if (newPosition.x > -(worldWidth / 2)) {
+        const objectLeft = newPosition.x - offsetX;
+        if (objectLeft > -(worldWidth / 2)) {
             return newPosition;
         }
-        const distanceCrossed = -(worldWidth / 2) - newPosition.x;
+        const distanceCrossed = -(worldWidth / 2) - objectLeft;
         newPosition.x += distanceCrossed * 2;
         return newPosition;
     }

@@ -14,6 +14,10 @@ class Vector3 {
         return Math.sqrt((this.x * this.x) + (this.y * this.y));
     }
 
+    get isAllZeros() {
+        return (this.x === 0) && (this.y === 0) && (this.z === 0);
+    }
+
     add(vector) {
         return new Vector3({
             x: this.x + vector.x,

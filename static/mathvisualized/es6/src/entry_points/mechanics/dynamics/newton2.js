@@ -72,8 +72,9 @@ const reset = () => {
     dot = {
         dynamics: new ObjectDynamics2D({
             massKg,
-            radius: 0,
+            radius: 0.2,
             constrainToBorders: true,
+            willBounce: true,
             worldWidth: constants.worldWidth,
             worldHeight: constants.worldHeight,
         }),

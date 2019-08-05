@@ -11,6 +11,8 @@ class ObjectDynamics2D extends AbstractPhysics2D {
         massKg,
         constrainToBorders,
         radius,
+        willBounce,
+        rectCollider,
         worldWidth,
         worldHeight,
     }) {
@@ -27,6 +29,8 @@ class ObjectDynamics2D extends AbstractPhysics2D {
 
         this.constrainToBorders = constrainToBorders;
         this.radius = radius;
+        this.rectCollider = rectCollider;
+        this.willBounce = willBounce;
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
     }
@@ -41,8 +45,11 @@ class ObjectDynamics2D extends AbstractPhysics2D {
 
         const positionDelta = this.velocity.multiply(time);
         this.position = this.position.add(positionDelta);
+        if (this.rectCollider) {
+            this.rectCollider.center = this.position;
+        }
 
-        if (this.constrainToBorders) {
+        if (this.constrainToBorders && this.willBounce) {
             this.bounce();
         }
     }
@@ -53,6 +60,7 @@ class ObjectDynamics2D extends AbstractPhysics2D {
                 side: sides[key],
                 position: this.position,
                 radius: this.radius,
+                rect: this.rectCollider,
                 worldWidth: this.worldWidth,
                 worldHeight: this.worldHeight,
             }));
@@ -67,43 +75,59 @@ class ObjectDynamics2D extends AbstractPhysics2D {
             loopGuard += 1;
             switch (crossedSide) {
             case sides.TOP: {
-                this.velocity.y = -this.velocity.y;
-                this.position = util.getBouncedPosition({
-                    side: sides.TOP,
-                    position: this.position,
-                    worldWidth: this.worldWidth,
-                    worldHeight: this.worldHeight,
-                });
+                if (this.velocity.y > 0) {
+                    this.velocity.y = -this.velocity.y;
+                    this.position = util.getBouncedPosition({
+                        side: sides.TOP,
+                        position: this.position,
+                        radius: this.radius,
+                        rect: this.rectCollider,
+                        worldWidth: this.worldWidth,
+                        worldHeight: this.worldHeight,
+                    });
+                }
                 break;
             }
             case sides.RIGHT: {
-                this.velocity.x = -this.velocity.x;
-                this.position = util.getBouncedPosition({
-                    side: sides.RIGHT,
-                    position: this.position,
-                    worldWidth: this.worldWidth,
-                    worldHeight: this.worldHeight,
-                });
+                if (this.velocity.x > 0) {
+                    this.velocity.x = -this.velocity.x;
+                    this.position = util.getBouncedPosition({
+                        side: sides.RIGHT,
+                        position: this.position,
+                        radius: this.radius,
+                        rect: this.rectCollider,
+                        worldWidth: this.worldWidth,
+                        worldHeight: this.worldHeight,
+                    });
+                }
                 break;
             }
             case sides.BOTTOM: {
-                this.velocity.y = -this.velocity.y;
-                this.position = util.getBouncedPosition({
-                    side: sides.BOTTOM,
-                    position: this.position,
-                    worldWidth: this.worldWidth,
-                    worldHeight: this.worldHeight,
-                });
+                if (this.velocity.y < 0) {
+                    this.velocity.y = -this.velocity.y;
+                    this.position = util.getBouncedPosition({
+                        side: sides.BOTTOM,
+                        position: this.position,
+                        radius: this.radius,
+                        rect: this.rectCollider,
+                        worldWidth: this.worldWidth,
+                        worldHeight: this.worldHeight,
+                    });
+                }
                 break;
             }
             case sides.LEFT: {
-                this.velocity.x = -this.velocity.x;
-                this.position = util.getBouncedPosition({
-                    side: sides.LEFT,
-                    position: this.position,
-                    worldWidth: this.worldWidth,
-                    worldHeight: this.worldHeight,
-                });
+                if (this.velocity.x < 0) {
+                    this.velocity.x = -this.velocity.x;
+                    this.position = util.getBouncedPosition({
+                        side: sides.LEFT,
+                        position: this.position,
+                        radius: this.radius,
+                        rect: this.rectCollider,
+                        worldWidth: this.worldWidth,
+                        worldHeight: this.worldHeight,
+                    });
+                }
                 break;
             }
             default:
