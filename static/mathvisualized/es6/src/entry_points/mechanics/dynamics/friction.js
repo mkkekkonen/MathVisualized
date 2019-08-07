@@ -30,7 +30,6 @@ const block = new Block2D({
     height: 1,
     useCollider: true,
     constrainToBorders: true,
-    willBounce: true,
 });
 
 const forceLineSegment = new LineSegment2D({

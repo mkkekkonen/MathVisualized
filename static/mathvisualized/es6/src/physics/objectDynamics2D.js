@@ -35,6 +35,24 @@ class ObjectDynamics2D extends AbstractPhysics2D {
         this.worldHeight = worldHeight;
     }
 
+    get widthHalved() {
+        if ((this.radius !== undefined) && (this.radius !== null)) {
+            return this.radius / 2;
+        } else if (this.rectCollider) {
+            return this.rectCollider.width / 2;
+        }
+        return 0;
+    }
+
+    get heightHalved() {
+        if ((this.radius !== undefined) && (this.radius !== null)) {
+            return this.radius / 2;
+        } else if (this.rectCollider) {
+            return this.rectCollider.height / 2;
+        }
+        return 0;
+    }
+
     update(time, force) {
         const acceleration = force
             ? force.divide(this.mass)
@@ -51,6 +69,8 @@ class ObjectDynamics2D extends AbstractPhysics2D {
 
         if (this.constrainToBorders && this.willBounce) {
             this.bounce();
+        } else if (this.constrainToBorders && !this.willBounce) {
+            this.stopOnBorder();
         }
     }
 
@@ -132,6 +152,36 @@ class ObjectDynamics2D extends AbstractPhysics2D {
             }
             default:
                 break;
+            }
+        }
+    }
+
+    stopOnBorder() {
+        let crossedSide;
+        while (crossedSide = this.hasCrossedBorder()) {
+            switch(crossedSide) {
+                case sides.TOP: {
+                    this.velocity.y = 0;
+                    this.position.y = (this.worldHeight / 2) - this.heightHalved;
+                    break;
+                }
+                case sides.RIGHT: {
+                    this.velocity.x = 0;
+                    this.position.x = (this.worldWidth / 2) - this.widthHalved;
+                    break;
+                }
+                case sides.BOTTOM: {
+                    this.velocity.y = 0;
+                    this.position.y = -(this.worldHeight / 2) + this.heightHalved;
+                    break;
+                }
+                case sides.LEFT: {
+                    this.velocity.x = 0;
+                    this.position.x = -(this.worldWidth / 2) + this.widthHalved;
+                    break;
+                }
+                default:
+                    break;
             }
         }
     }
