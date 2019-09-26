@@ -22,3 +22,6 @@ export const sides = {
     BOTTOM: 'BOTTOM',
     LEFT: 'LEFT',
 };
+
+export const NO_COLLISION = 1;
+export const COLLISION = 2;

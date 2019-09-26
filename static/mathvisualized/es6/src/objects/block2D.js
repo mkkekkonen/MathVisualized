@@ -5,6 +5,7 @@ import { defaultScalingFactor } from '../constants/global';
 import ObjectDynamics2D from '../physics/objectDynamics2D';
 import Vector3 from '../math/vector';
 import Rect2D from '../math/geometry/rect2D';
+import RectCollider2D from '../collision/rectCollider2D';
 import * as constants from '../constants/global';
 
 class Block2D extends AbstractObject2D {
@@ -27,16 +28,16 @@ class Block2D extends AbstractObject2D {
         this.fill = fill;
         this.scalingFactor = scalingFactor;
 
-        const collider = new Rect2D({
-            center: this.location,
+        this.collider = new RectCollider2D({
+            center: location,
             width,
             height,
         });
 
-        this.physics = new ObjectDynamics2D({
-            position: this.location,
+        super.physics = new ObjectDynamics2D({
+            position: location,
             massKg,
-            rectCollider: collider,
+            rectCollider: this.collider.rectCollider,
             constrainToBorders,
             willBounce,
             worldWidth,
@@ -46,10 +47,10 @@ class Block2D extends AbstractObject2D {
 
     update(timeDeltaSeconds, force) {
         this.physics.update(timeDeltaSeconds, force);
-        this.location = this.physics.position;
+        this.collider.update(null, { location: this.physics.position });
     }
 
-    render(layer, viewportMatrix) {
+    render(layer, viewportMatrix, { fill } = {}) {
         if (!this.shape) {
             return;
         }
@@ -62,6 +63,9 @@ class Block2D extends AbstractObject2D {
         const locationPx = viewportMatrix.multiplyVector(adjustedLocation);
         this.shape.setAttr('x', locationPx.x);
         this.shape.setAttr('y', locationPx.y);
+        if (fill) {
+            this.shape.setAttr('fill', fill);
+        }
 
         layer.add(this.shape);
     }

@@ -199,3 +199,10 @@ export const getBouncedPosition = ({ side, position, radius, rect, worldWidth, w
         return newPosition;
     }
 };
+
+export const getCheckedCollidersKey = (uidA, uidB) => {
+    const arr = [uidA, uidB];
+    arr.sort();
+    const [sortedUidA, sortedUidB] = arr;
+    return `${sortedUidA}:${sortedUidB}`;
+};

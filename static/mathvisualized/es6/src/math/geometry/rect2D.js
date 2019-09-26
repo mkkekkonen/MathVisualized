@@ -22,6 +22,15 @@ class Rect2D {
     get left() {
         return this.center.x - (this.width / 2);
     }
+
+    collidesWithAABB(other) {
+        return (
+            this.left < other.right
+                && this.right > other.left
+                && this.bottom < other.top
+                && this.top > other.bottom
+        );
+    }
 }
 
 export default Rect2D;

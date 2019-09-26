@@ -6,7 +6,7 @@ import * as lineSegmentRenderer from '../../../renderers/lineSegmentRenderer';
 import * as constants from '../../../constants/global';
 import Line2D, { lineTypes } from '../../../math/geometry/line2D';
 import LineSegment2D from '../../../math/geometry/lineSegment2D';
-import Rect2D from '../../../math/geometry/rect2D';
+import ColliderWorld from '../../../collision/colliderWorld';
 import Vector3 from '../../../math/vector';
 import Block2D from '../../../objects/block2D';
 
@@ -32,17 +32,22 @@ const block = new Block2D({
     constrainToBorders: true,
 });
 
+const staticBlock = new Block2D({
+    location: new Vector3({ y: -4 }),
+    width: 1,
+    height: 2,
+    useCollider: true,
+});
+
 const forceLineSegment = new LineSegment2D({
     startPoint: undefined,
     endPoint: undefined,
 });
 
-const colliders = [
-    new Rect2D({
-        topLeft: new Vector3({ x: -5, y: horizon.yIntercept, z: 0 }),
-        bottomRight: new Vector3({ x: 5, y: -5, z: 0 }),
-    }),
-];
+const colliderWorld = new ColliderWorld();
+colliderWorld.init([block.collider, staticBlock.collider]);
+
+let collidedKeys = [];
 
 const determineClickSide = clickVector => {
     if (clickVector.x < block.location.x) {
@@ -77,6 +82,7 @@ const getClickVector = event => {
 }
 
 const update = timeDeltaSeconds => {
+    collidedKeys = colliderWorld.checkCollisionsOnUpdate();
     block.update(timeDeltaSeconds, force.multiply(100).add(gravitationalForce)); // kN
     if (!force.isAllZeros) {
         force = new Vector3();
@@ -93,7 +99,10 @@ const render = () => {
         strokeColor: '#000',
     });
 
-    block.render(layer, util.defaultViewportMatrix);
+    const blockFill = collidedKeys.includes(block.collider.uid) ? '#a00' : '#000';
+
+    block.render(layer, util.defaultViewportMatrix, { fill: blockFill });
+    staticBlock.render(layer, util.defaultViewportMatrix);
 
     if (forceLineSegment.startPoint && forceLineSegment.endPoint) {
         lineSegmentRenderer.addLineSegmentToLayer({
@@ -124,6 +133,7 @@ stage.on('click', event => {
 });
 
 block.initializeShape(layer, util.defaultViewportMatrix);
+staticBlock.initializeShape(layer, util.defaultViewportMatrix);
 
 window.setInterval(() => {
     const currentTime = new Date().getTime();
