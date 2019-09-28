@@ -1,7 +1,6 @@
 import * as util from '../../../util/util';
 import * as axis2DRenderer from '../../../renderers/axis2DRenderer';
-import * as lineSegmentRenderer from '../../../renderers/lineSegmentRenderer';
-import * as lineSegmentUpdater from '../../../updaters/lineSegmentUpdater';
+import * as inputManager from '../../../input/inputManager';
 import LineSegment2D from '../../../math/geometry/lineSegment2D';
 import { darkGrey } from '../../../constants/global';
 import Vector3 from '../../../math/vector';
@@ -11,6 +10,11 @@ axis2DRenderer.addAxesToLayer(layer);
 layer.draw();
 
 const line = new LineSegment2D({ startPoint: null, endPoint: null });
+const mirroredLine = new LineSegment2D({
+    startPoint: null,
+    endPoint: null,
+    strokeColor: darkGrey,
+});
 
 const getCheckedInputId = () => {
     return Array.from(document.getElementsByName('mirroracross'))
@@ -43,26 +47,22 @@ const drawMirroredLine = ({ startPoint, endPoint }) => {
         mirroredEndPoint = new Vector3({ x: -endX, y: -endY, z: 0 });
     }
 
-    lineSegmentRenderer.addLineSegmentToLayer({
-        line: new LineSegment2D({
-            startPoint: mirroredStartPoint,
-            endPoint: mirroredEndPoint,
-        }),
-        layer,
-        strokeColor: darkGrey,
-    });
+    mirroredLine.update({ startPoint: mirroredStartPoint, endPoint: mirroredEndPoint });
+    mirroredLine.konvaRender({ layer });
 };
 
 const drawLines = () => {
     layer.removeChildren();
     axis2DRenderer.addAxesToLayer(layer);
-    lineSegmentRenderer.addLineSegmentToLayer({ line, layer });
+    line.konvaRender({ layer });
     drawMirroredLine(line);
     layer.draw();
 };
 
 const clickTapHandler = () => {
-    lineSegmentUpdater.updateLine({ line, stage });
+    const worldMousePosition = inputManager.getMouseWorldPosition({ stage });
+    line.update({ startPoint: line.endPoint, endPoint: worldMousePosition });
+
     if (line.startPoint && line.endPoint) {
         document.getElementById('output').innerHTML = line.toString();
         drawLines();
