@@ -4,6 +4,7 @@ import { round, radiansToDegrees } from '../util';
 import Vector3 from '../vector';
 import { black, strokeWidth as defaultStrokeWidth } from '../../constants/global';
 import { defaultViewportMatrix } from '../../util/util';
+import { addDotToLayer } from '../../renderers/dotRenderer';
 
 class LineSegment2D {
     constructor({
@@ -52,10 +53,15 @@ class LineSegment2D {
         return radiansToDegrees(angleInRadians);
     }
 
-    konvaRender({ layer, viewportMatrix = defaultViewportMatrix }) {
+    konvaRender({
+        layer,
+        viewportMatrix = defaultViewportMatrix,
+        renderMidpoint = false,
+    }) {
         if (this.startPoint && this.endPoint) {
             const screenStartPoint = viewportMatrix.multiplyVector(this.startPoint);
             const screenEndPoint = viewportMatrix.multiplyVector(this.endPoint);
+
             this.konvaLine = new Konva.Line({
                 points: [screenStartPoint.x, screenStartPoint.y,
                     screenEndPoint.x, screenEndPoint.y],
@@ -63,6 +69,10 @@ class LineSegment2D {
                 strokeWidth: this.strokeWidth,
             });
             layer.add(this.konvaLine);
+
+            if (renderMidpoint) {
+                addDotToLayer({ point: this.midpoint, layer });
+            }
         }
     }
 
