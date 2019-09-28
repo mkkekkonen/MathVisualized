@@ -17,7 +17,7 @@ var getDirectories = function(source) {
         }).filter(isDirectory);
 }
 
-gulp.task('bonsai', function() {
+gulp.task('bonsai', function(done) {
     var bundleFiles = function(filenames) {
         filenames.forEach(function(filename) {
             var filenameWithoutExtension = filename.split('.')[0];
@@ -31,9 +31,11 @@ gulp.task('bonsai', function() {
     }
 
     bundleFiles(fs.readdirSync('src/bonsai_movies'));
+
+    done();
 });
 
-gulp.task('konva', function() {
+gulp.task('konva', function(done) {
     var bundleFiles = function(filenames, sourceFolderPath) {
         filenames.forEach(function(filename) {
             var filenameWithoutExtension = filename.split('.')[0];
@@ -67,12 +69,14 @@ gulp.task('konva', function() {
             );
         });
     });
+
+    done();
 });
 
 gulp.task('watch', function() {
-    gulp.watch('./src/bonsai_movies/*.js', ['bonsai']);
-    gulp.watch('./src/**/*.js', ['konva']);
+    gulp.watch('./src/bonsai_movies/*.js', gulp.series('bonsai'));
+    gulp.watch('./src/**/*.js', gulp.series('konva'));
 });
 
-gulp.task('default', ['bonsai', 'konva', 'watch']);
+gulp.task('default', gulp.series('bonsai', 'konva', 'watch'));
 // gulp.task('default', ['konva']);
