@@ -12,7 +12,7 @@ export const red = '#f00';
 export const strokeWidth = 2;
 export const dotRadius = 4;
 
-export const accelerationGravity = new Vector3({ x: 0, y: -9.81, z: 0 });
+// export const accelerationGravity = new Vector3({ x: 0, y: -9.81, z: 0 });
 
 export const sides = {
     TOP: 'TOP',

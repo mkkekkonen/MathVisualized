@@ -53,6 +53,11 @@ class LineSegment2D {
         return radiansToDegrees(angleInRadians);
     }
 
+    update({ startPoint, endPoint }) {
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
+    }
+
     konvaRender({
         layer,
         viewportMatrix = defaultViewportMatrix,
@@ -74,11 +79,6 @@ class LineSegment2D {
                 addDotToLayer({ point: this.midpoint, layer });
             }
         }
-    }
-
-    update({ startPoint, endPoint }) {
-        this.startPoint = startPoint;
-        this.endPoint = endPoint;
     }
 
     toString(args = {}) {

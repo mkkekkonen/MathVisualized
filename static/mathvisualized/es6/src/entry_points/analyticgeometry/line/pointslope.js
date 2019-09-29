@@ -1,9 +1,7 @@
 import * as util from '../../../util/util';
 import * as axis2DRenderer from '../../../renderers/axis2DRenderer';
-import * as lineRenderer from '../../../renderers/lineRenderer';
-import * as lineUpdater from '../../../updaters/lineUpdater';
-import { worldWidth } from '../../../constants/global';
 import Line2D, { lineTypes } from '../../../math/geometry/line2D';
+import Vector3 from '../../../math/vector';
 
 const { layer } = util.getDefaultKonvaStage2();
 axis2DRenderer.addAxesToLayer(layer);
@@ -15,10 +13,22 @@ const line = new Line2D({
     type: lineTypes.POINT_SLOPE,
 });
 
+const updateLine = () => {
+    const verticalChecked = document.getElementById('vertical').checked;
+    const slope = verticalChecked ? NaN : util.parseFloatById('slope');
+
+    const pointX = util.parseFloatById('x');
+    const pointY = util.parseFloatById('y');
+
+    const point = new Vector3({ x: pointX, y: pointY, z: 0 });
+
+    line.updatePointSlope({ point, slope });
+}
+
 document.getElementById('drawButton').addEventListener('click', () => {
     layer.removeChildren();
     axis2DRenderer.addAxesToLayer(layer);
-    lineUpdater.updatePointSlopeLine(line);
-    lineRenderer.plotPointSlopeLine({ line, layer, worldWidth });
+    updateLine();
+    line.renderPointSlope({ layer });
     layer.draw();
 });
