@@ -1,6 +1,5 @@
 import * as util from '../../../util/util';
 import * as axis2DRenderer from '../../../renderers/axis2DRenderer';
-import * as inputManager from '../../../input/inputManager';
 import LineSegment2D from '../../../math/geometry/lineSegment2D';
 
 const { stage, layer } = util.getDefaultKonvaStage2();
@@ -13,8 +12,7 @@ const clickTapHandler = () => {
     layer.removeChildren();
     axis2DRenderer.addAxesToLayer(layer);
 
-    const worldMousePosition = inputManager.getMouseWorldPosition({ stage });
-    line.update({ startPoint: line.endPoint, endPoint: worldMousePosition });
+    util.updateLineSegmentOnClick({ lineSegment: line, stage });
 
     if (line.startPoint && line.endPoint) {
         document.getElementById('output').innerHTML = line.toString(true);

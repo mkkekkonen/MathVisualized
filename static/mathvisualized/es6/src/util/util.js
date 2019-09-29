@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 
 import Konva from 'konva';
+
 import createViewportMatrix, { createReverseViewportMatrix } from '../math/viewport';
 import {
     movieWidth,
@@ -10,6 +11,7 @@ import {
     sides,
 } from '../constants/global';
 import Vector3 from '../math/vector';
+import * as inputManager from '../input/inputManager';
 
 export const defaultViewportMatrix = createViewportMatrix({
     worldWidth,
@@ -128,4 +130,9 @@ export const getBouncedPosition = ({ side, position, worldWidth, worldHeight }) 
     default:
         return newPosition;
     }
+};
+
+export const updateLineSegmentOnClick = ({ lineSegment, stage }) => {
+    const worldMousePosition = inputManager.getMouseWorldPosition({ stage });
+    lineSegment.update({ startPoint: lineSegment.endPoint, endPoint: worldMousePosition });
 };
