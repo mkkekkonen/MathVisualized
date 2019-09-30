@@ -90,6 +90,12 @@ class Line2D {
         this.slope = slope;
     }
 
+    updateGeneralForm({ a, b, c }) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+
     renderPointSlope({
         layer,
         worldWidth = defaultWorldWidth,
@@ -102,6 +108,19 @@ class Line2D {
             } else {
                 this.plotLine({ layer, worldWidth, viewportMatrix });
             }
+        }
+    }
+
+    renderGeneralForm({
+        layer,
+        worldWidth = defaultWorldWidth,
+        worldHeight = defaultWorldHeight,
+        viewportMatrix = defaultViewportMatrix,
+    }) {
+        if (this.a === 0 && this.b === 0) {
+            // do nothing
+        } else {
+            this.plotLine({ layer, worldWidth, viewportMatrix });
         }
     }
 
@@ -195,7 +214,8 @@ class Line2D {
     };
 
     plotVerticalLine({ layer, worldHeight, viewportMatrix }) {
-        const { x } = this.point;
+        const x = this.getX();
+
         this.konvaLines = [];
 
         const startYCoordinate = -(worldHeight / 2);
@@ -224,6 +244,14 @@ class Line2D {
         });
         layer.add(konvaLine);
         return konvaLine;
+    }
+
+    getX() {
+        if (this.type === lineTypes.POINT_SLOPE) {
+            return this.point.x;
+        } else if (this.type === lineTypes.GENERAL) {
+            return this.a;
+        }
     }
 }
 

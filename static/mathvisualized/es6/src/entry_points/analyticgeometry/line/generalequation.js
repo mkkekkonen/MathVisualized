@@ -16,10 +16,18 @@ const line = new Line2D({
     type: lineTypes.GENERAL,
 });
 
+const updateGeneralFormLine = () => {
+    const a = util.parseFloatById('a');
+    const b = util.parseFloatById('b');
+    const c = util.parseFloatById('c');
+
+    line.updateGeneralForm({ a, b, c });
+};
+
 document.getElementById('drawButton').addEventListener('click', () => {
     layer.removeChildren();
     axis2DRenderer.addAxesToLayer(layer);
-    lineUpdater.updateGeneralFormLine(line);
-    lineRenderer.plotGeneralFormLine({ line, layer, worldWidth });
+    updateGeneralFormLine();
+    line.renderGeneralForm({ layer });
     layer.draw();
 });
