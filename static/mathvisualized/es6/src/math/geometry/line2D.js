@@ -96,6 +96,11 @@ class Line2D {
         this.c = c;
     }
 
+    updateSlopeIntercept({ slope, yIntercept }) {
+        this.slope = slope;
+        this.yIntercept = yIntercept;
+    }
+
     renderPointSlope({
         layer,
         worldWidth = defaultWorldWidth,
@@ -119,6 +124,19 @@ class Line2D {
     }) {
         if (this.a === 0 && this.b === 0) {
             // do nothing
+        } else {
+            this.plotLine({ layer, worldWidth, viewportMatrix });
+        }
+    }
+
+    renderSlopeIntercept({
+        layer,
+        worldWidth = defaultWorldWidth,
+        worldHeight = defaultWorldHeight,
+        viewportMatrix = defaultViewportMatrix,
+    }) {
+        if (this.slope === 0) {
+            this.plotVerticalLine({ layer, worldHeight, viewportMatrix });
         } else {
             this.plotLine({ layer, worldWidth, viewportMatrix });
         }

@@ -14,10 +14,17 @@ const line = Line2D.slopeIntercept({
     yIntercept: 0,
 });
 
+const updateSlopeInterceptLine = () => {
+    const slope = util.parseFloatById('k');
+    const yIntercept = util.parseFloatById('b');
+
+    line.updateSlopeIntercept({ slope, yIntercept });
+};
+
 document.getElementById('drawButton').addEventListener('click', () => {
     layer.removeChildren();
     axis2DRenderer.addAxesToLayer(layer);
-    lineUpdater.updateSlopeInterceptLine(line);
-    lineRenderer.plotSlopeInterceptLine({ line, layer, worldWidth });
+    updateSlopeInterceptLine();
+    line.renderSlopeIntercept({ layer });
     layer.draw();
 });
