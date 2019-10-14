@@ -69,16 +69,30 @@ class Line2D {
         this.strokeWidth = strokeWidth;
     }
 
-    static general({ a, b, c }) {
-        return new this({ a, b, c, type: lineTypes.GENERAL });
+    static general({ a, b, c, strokeColor = black }) {
+        return new this({
+            a, b, c,
+            type: lineTypes.GENERAL,
+            strokeColor,
+        });
     }
 
-    static slopeIntercept({ slope, yIntercept }) {
-        return new this({ slope, yIntercept, type: lineTypes.SLOPE_INTERCEPT });
+    static slopeIntercept({ slope, yIntercept, strokeColor = black }) {
+        return new this({
+            slope,
+            yIntercept,
+            type: lineTypes.SLOPE_INTERCEPT,
+            strokeColor,
+        });
     }
 
-    static pointSlope({ slope, point }) {
-        return new this({ slope, point, type: lineTypes.POINT_SLOPE });
+    static pointSlope({ slope, point, strokeColor = black }) {
+        return new this({
+            slope,
+            point,
+            type: lineTypes.POINT_SLOPE,
+            strokeColor,
+        });
     }
 
     static calculatePerpendicularSlope(slope) {
